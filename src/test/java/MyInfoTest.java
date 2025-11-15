@@ -21,14 +21,12 @@ public class MyInfoTest extends BasicTest{
         String firstName = "John";
         String middleName = "M";
         String lastName = "Doe";
-        String nickname = "Johnny";
         String otherId = "12345";
         String license = "DL987654";
 
         myInfo.setFirstName(firstName);
         myInfo.setMiddleName(middleName);
         myInfo.setLastName(lastName);
-        myInfo.setNickname(nickname);
         myInfo.setOtherID(otherId);
         myInfo.setLicense(license);
 
