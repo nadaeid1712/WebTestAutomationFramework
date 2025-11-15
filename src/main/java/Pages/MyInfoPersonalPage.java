@@ -16,7 +16,6 @@ public class MyInfoPersonalPage {
     By firstNameInput = By.name("firstName");
     By middleNameInput = By.name("middleName");
     By lastNameInput = By.name("lastName");
-    By nicknameInput = By.xpath("//label[text()='Nickname']/../following-sibling::div/input");
     By otherIDInput = By.xpath("//label[text()='Other Id']/../following-sibling::div/input");
     By licenseInput = By.xpath("//label[text()='Driver's License Number']/../following-sibling::div/input");
 
@@ -46,10 +45,7 @@ public class MyInfoPersonalPage {
         driver.findElement(lastNameInput).sendKeys(value);
     }
 
-    public void setNickname(String value) {
-        driver.findElement(nicknameInput).clear();
-        driver.findElement(nicknameInput).sendKeys(value);
-    }
+
 
     public void setOtherID(String value) {
         driver.findElement(otherIDInput).clear();
