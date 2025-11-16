@@ -21,7 +21,7 @@ public class InfoPage {
     // FIXED: Escaped apostrophe inside Java string
     By licenseInput = By.xpath("//label[text()=\"Driver's License Number\"]/../following-sibling::div/input");
 
-    private By saveBtn = By.xpath("//button[contains(.,'Save')]");
+     By saveBtn = By.xpath("//button[contains(.,'Save')]");
 
     public InfoPage(WebDriver driver) {
         this.driver = driver;

@@ -7,15 +7,15 @@ import org.testng.annotations.Test;
 
 import java.time.Instant;
 
-public class InfoTest extends BasicTest {
+public class InfoTest extends BaseTest {
     WebDriverWait wait;
 
     InfoPage myInfo;
 
-    @BeforeClass
-    public void setUpPage() {
-        myInfo = new InfoPage(driver); // driver is ready now
-    }
+//    @BeforeClass
+//    public void setUpPage() {
+//        myInfo = new InfoPage(driver); // driver is ready now
+//    }
 
     @Test
     public void updatePersonalInfoTest() throws InterruptedException {
@@ -38,7 +38,7 @@ public class InfoTest extends BasicTest {
 
         myInfo.clickSave();
         Instant wait;
-        wait.until(ExpectedConditions.visibilityOfElementLocated(myInfo.successMessage));
+       //
         // Run assertions
         AssertionUtils.assertPersonalInfo(
                 myInfo, firstName, middleName, lastName, otherId, license

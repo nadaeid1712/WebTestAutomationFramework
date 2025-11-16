@@ -4,7 +4,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class PinAddNewTest extends BasicTest {
+public class PinAddNewTest extends BaseTest {
     @Test(priority = 2)
     public  void addEmployeeButtonAppears(){
         Allure.step("Add Employee Button Active");

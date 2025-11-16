@@ -1,17 +1,21 @@
-import Pages.MyInfoPersonalPage;
+//import Pages.MyInfoPersonalPage;
+import Pages.InfoPage;
 import io.qameta.allure.Allure;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class MyInfoTest extends BasicTest{
+public class MyInfoTest extends BaseTest {
 
-    MyInfoPersonalPage myInfo=new MyInfoPersonalPage(driver);;
+    InfoPage myInfo = new InfoPage(driver);
+    ;
 
-
+//    MyInfoPersonalPage myInfo=new MyInfoPersonalPage(driver);;
 
 
     @Test(priority = 2)
-    public void updatePersonalInfoTest() throws InterruptedException {
+    public void updatePersonalInfoTest() {
+
+        //throws InterruptedException
         Allure.step("My INfo.");
 
         // Open My Info page
@@ -33,14 +37,14 @@ public class MyInfoTest extends BasicTest{
         // Save changes
         myInfo.clickSave();
 
-        Thread.sleep(2000); // wait for save to complete (or better: wait for success message)
+        // Thread.sleep(2000); // wait for save to complete (or better: wait for success message)
 
         // Validation
         Assert.assertEquals(myInfo.getFirstName(), firstName, "First Name did not update correctly");
         // Similarly, you can add getters/asserts for lastName, middleName, etc.
+
+
     }
-
-
 }
 
 
