@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 
 public class BasicTest {
-
     WebDriver driver = new ChromeDriver();
     String url="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
 
@@ -23,7 +22,7 @@ public class BasicTest {
     public void navigate() {
         driver.get(url);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
     }
 
@@ -33,3 +32,6 @@ public class BasicTest {
 
     }
 }
+
+
+
