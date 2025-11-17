@@ -18,8 +18,8 @@ public class AssertionUtils {
             Assert.assertEquals(page.getFirstName(), expectedFirst, "First name mismatch!");
             Assert.assertEquals(page.getMiddleName(), expectedMiddle, "Middle name mismatch!");
             Assert.assertEquals(page.getLastName(), expectedLast, "Last name mismatch!");
-            Assert.assertEquals(page.getOtherID(), expectedOtherID, "Other ID mismatch!");
-            Assert.assertEquals(page.getLicense(), expectedLicense, "License mismatch!");
+//            Assert.assertEquals(page.getOtherID(), expectedOtherID, "Other ID mismatch!");
+//            Assert.assertEquals(page.getLicense(), expectedLicense, "License mismatch!");
         }
     }
 

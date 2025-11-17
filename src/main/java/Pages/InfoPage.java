@@ -1,87 +1,149 @@
 package Pages;
+import org.openqa.selenium.support.ui.Select;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class InfoPage {
 
     WebDriver driver;
     WebDriverWait wait;
 
-    By myInfoMenu = By.xpath("//span[text()='My Info']");
+    // ---------- Locators ----------
+    // My info menu (only used if visible)
+    By myInfoMenu = By.xpath("//a[contains(@href,'viewMyDetails')]");
+
+    // Inputs
     By firstNameInput = By.name("firstName");
     By middleNameInput = By.name("middleName");
     By lastNameInput = By.name("lastName");
-
     By otherIDInput = By.xpath("//label[text()='Other Id']/../following-sibling::div/input");
+    By licenseInput = By.xpath("//label[contains(text(),'Driver')]/../following-sibling::div/input");
 
-    // FIXED: Escaped apostrophe inside Java string
-    By licenseInput = By.xpath("//label[text()=\"Driver's License Number\"]/../following-sibling::div/input");
+    // Date of Birth
+    By dobInput = By.xpath("//label[text()='Date of Birth']/../following-sibling::div//input");
 
-     By saveBtn = By.xpath("//button[contains(.,'Save')]");
+    // Gender
+    By genderMaleRadio = By.xpath("//input[@type='radio' and @value='1']");
+    By genderFemaleRadio = By.xpath("//input[@type='radio' and @value='2']");
+    By maritalStatusDropdown = By.xpath("//label[text()='Marital Status']/../following-sibling::div//select");
+
+    // Save button
+    By saveBtn = By.xpath("//button[contains(.,'Save')]");
 
     public InfoPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(8));
     }
 
-    public void openMyInfo() {
-        wait.until(ExpectedConditions.elementToBeClickable(myInfoMenu)).click();
+    // ---------- Optional Navigation ----------
+    public void openMyInfoIfVisible() {
+        List<WebElement> items = driver.findElements(myInfoMenu);
+        if (!items.isEmpty()) {
+            wait.until(ExpectedConditions.elementToBeClickable(myInfoMenu)).click();
+        }
     }
 
-    // ---------------------- SETTERS ----------------------
-
-    public void setFirstName(String value) {
-        driver.findElement(firstNameInput).clear();
-        driver.findElement(firstNameInput).sendKeys(value);
+    // ---------- Utility ----------
+    private void clearAndType(By locator, String value) {
+        WebElement field = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        field.sendKeys(Keys.CONTROL + "a");
+        field.sendKeys(Keys.DELETE);
+        field.sendKeys(value);
     }
 
-    public void setMiddleName(String value) {
-        driver.findElement(middleNameInput).clear();
-        driver.findElement(middleNameInput).sendKeys(value);
+    // ---------- Setters ----------
+    public InfoPage setFirstName(String value) { clearAndType(firstNameInput, value); return this; }
+    public InfoPage setMiddleName(String value) { clearAndType(middleNameInput, value); return this; }
+    public InfoPage setLastName(String value) { clearAndType(lastNameInput, value); return this; }
+    public InfoPage setOtherID(String value) { clearAndType(otherIDInput, value); return this; }
+    public InfoPage setLicense(String value) { clearAndType(licenseInput, value); return this; }
+
+    // ---------- Setter ----------
+    public InfoPage setMaritalStatus(String status) {
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(maritalStatusDropdown));
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(status);
+        return this;
     }
 
-    public void setLastName(String value) {
-        driver.findElement(lastNameInput).clear();
-        driver.findElement(lastNameInput).sendKeys(value);
+    // ---------- Getter ----------
+    public String getMaritalStatus() {
+        WebElement dropdown = driver.findElement(maritalStatusDropdown);
+        Select select = new Select(dropdown);
+        return select.getFirstSelectedOption().getText();
     }
 
-    public void setOtherID(String value) {
-        driver.findElement(otherIDInput).clear();
-        driver.findElement(otherIDInput).sendKeys(value);
+    public InfoPage setDateOfBirth(String value) {
+        WebElement e = wait.until(ExpectedConditions.elementToBeClickable(dobInput));
+        e.sendKeys(Keys.CONTROL + "a");
+        e.sendKeys(Keys.DELETE);
+        e.sendKeys(value);
+        e.sendKeys(Keys.ENTER); // important for OrangeHRM
+        return this;
     }
 
-    public void setLicense(String value) {
-        driver.findElement(licenseInput).clear();
-        driver.findElement(licenseInput).sendKeys(value);
+    public InfoPage setGender(String gender) {
+        if (gender.equalsIgnoreCase("male")) {
+            wait.until(ExpectedConditions.elementToBeClickable(genderMaleRadio)).click();
+        } else if (gender.equalsIgnoreCase("female")) {
+            wait.until(ExpectedConditions.elementToBeClickable(genderFemaleRadio)).click();
+        }
+        return this;
     }
 
     public void clickSave() {
         wait.until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
+
+        // Optional: wait for toast
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//div[contains(@class,'oxd-toast')]")
+            ));
+        } catch (Exception ignored) {}
     }
 
-    // ---------------------- GETTERS ----------------------
-
+    // ---------- Getters ----------
     public String getFirstName() {
-        return driver.findElement(firstNameInput).getAttribute("value");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(firstNameInput))
+                .getAttribute("value");
     }
 
     public String getMiddleName() {
-        return driver.findElement(middleNameInput).getAttribute("value");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(middleNameInput))
+                .getAttribute("value");
     }
 
     public String getLastName() {
-        return driver.findElement(lastNameInput).getAttribute("value");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(lastNameInput))
+                .getAttribute("value");
     }
 
     public String getOtherID() {
-        return driver.findElement(otherIDInput).getAttribute("value");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(otherIDInput))
+                .getAttribute("value");
     }
 
     public String getLicense() {
-        return driver.findElement(licenseInput).getAttribute("value");
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(licenseInput))
+                .getAttribute("value");
+    }
+
+    public String getDateOfBirth() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(dobInput))
+                .getAttribute("value");
+    }
+
+    public String getGender() {
+        if (wait.until(ExpectedConditions.visibilityOfElementLocated(genderMaleRadio)).isSelected())
+            return "Male";
+        if (wait.until(ExpectedConditions.visibilityOfElementLocated(genderFemaleRadio)).isSelected())
+            return "Female";
+        return "";
     }
 }

@@ -28,11 +28,11 @@ public class BaseTest {
 
         }
 
-        @AfterTest
-        public void close() {
-            driver.quit();
-
-        }
+//        @AfterTest
+//        public void close() {
+//            driver.quit();
+//
+//        }
     }
 
 

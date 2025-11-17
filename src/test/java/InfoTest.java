@@ -1,47 +1,60 @@
 import Pages.InfoPage;
-import Utilities.AssertionUtils;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Instant;
-
 public class InfoTest extends BaseTest {
-    WebDriverWait wait;
 
     InfoPage myInfo;
 
-//    @BeforeClass
-//    public void setUpPage() {
-//        myInfo = new InfoPage(driver); // driver is ready now
-//    }
+    @BeforeMethod
+    public void setUpPage() {
+        myInfo = new InfoPage(driver);
+    }
 
-    @Test
-    public void updatePersonalInfoTest() throws InterruptedException {
+    @Test(priority = 1)
+    public void updatePersonalInfoTest() {
 
-        myInfo.openMyInfo();
+        // Open My Info menu
+        myInfo.openMyInfoIfVisible();
 
-        // Test Data
-        String firstName = "John";
-        String middleName = "M";
-        String lastName = "Doe";
-        String otherId = "12345";
-        String license = "DL987654";
+        // Click Edit to enable fields
+       // myInfo.clickEdit();
 
-        // Update Fields
-        myInfo.setFirstName(firstName);
-        myInfo.setMiddleName(middleName);
-        myInfo.setLastName(lastName);
-        myInfo.setOtherID(otherId);
-        myInfo.setLicense(license);
+        // ---------- Test Data ----------
+        String firstName = "ohood";
+        String middleName = "a";
+        String lastName = "s";
+        String otherId = "55";
+        String license = "gg444";
+        String dob = "2023-02-10";
+        String gender = "female";
+        String maritalStatus = "Married";
 
+        // ---------- Update Fields ----------
+        myInfo.setFirstName(firstName)
+                .setMiddleName(middleName)
+                .setLastName(lastName)
+                .setOtherID(otherId)
+                .setLicense(license)
+                .setDateOfBirth(dob)
+            //    .setGender(gender)
+                .setMaritalStatus(maritalStatus);  // <-- new line
+
+        ;
+
+        // Save changes
         myInfo.clickSave();
-        Instant wait;
-       //
-        // Run assertions
-        AssertionUtils.assertPersonalInfo(
-                myInfo, firstName, middleName, lastName, otherId, license
-        );
+
+        // ---------- Assertions ----------
+        Assert.assertEquals(myInfo.getFirstName(), firstName, "First name not updated");
+        Assert.assertEquals(myInfo.getMiddleName(), middleName, "Middle name not updated");
+        Assert.assertEquals(myInfo.getLastName(), lastName, "Last name not updated");
+        Assert.assertEquals(myInfo.getOtherID(), otherId, "Other ID not updated");
+        Assert.assertEquals(myInfo.getLicense(), license, "License not updated");
+        Assert.assertEquals(myInfo.getDateOfBirth(), dob, "Date of Birth not updated");
+        Assert.assertEquals(myInfo.getGender(), gender, "Gender not updated");
+        Assert.assertEquals(myInfo.getMaritalStatus(), maritalStatus, "Marital Status not updated");
+
     }
 }
