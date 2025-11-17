@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.time.Instant;
 
 public class InfoTest extends BaseTest {
@@ -18,7 +19,7 @@ public class InfoTest extends BaseTest {
 //    }
 
     @Test
-    public void updatePersonalInfoTest() throws InterruptedException {
+    public void updatePersonalInfoTest() throws IOException {
 
         myInfo.openMyInfo();
 
