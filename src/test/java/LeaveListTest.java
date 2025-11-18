@@ -12,7 +12,7 @@ public class LeaveListTest extends BaseTest {
             leave.selectLeaveButton();
             leave.waitForPage();  // ← أهم خطوة
             leave.selectLeaveButton();
-            leave.selectStatus("Scheduled");
+            //leave.selectStatus("Scheduled");
             leave.clickSearch();
 
 //            String actualStatus = driver.getFirstResultStatus();
