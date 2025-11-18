@@ -8,14 +8,12 @@ public class LeaveListTest extends BaseTest {
         public void testLeaveListFilters() {
 
 
-            new LeaveListPage(driver).selectLeaveButton();
-
-
-            new LeaveListPage(driver).waitForPage();  // ← أهم خطوة
-            new LeaveListPage(driver).selectLeaveButton();
-
-           new LeaveListPage (driver).selectStatus("Scheduled");
-           new LeaveListPage (driver).clickSearch();
+            LeaveListPage  leave =new LeaveListPage(driver);
+            leave.selectLeaveButton();
+            leave.waitForPage();  // ← أهم خطوة
+            leave.selectLeaveButton();
+            leave.selectStatus("Scheduled");
+            leave.clickSearch();
 
 //            String actualStatus = driver.getFirstResultStatus();
 //            Assert.assertEquals(actualStatus, "Scheduled",
