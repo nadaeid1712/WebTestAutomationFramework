@@ -12,11 +12,13 @@ public class PimPage {
     By lastNameLocator=By.name("lastName");
     By employeeIdLocator=By.xpath("/html/body/div/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[1]/div[2]/div/div/div[2]/input");
     By createLoginDetailsLocator=By.cssSelector("span[class=\"oxd-switch-input oxd-switch-input--active --label-right\"]");
-    By userNameLocator=By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[3]/div/div[1]/div/div[2]/input");
     By saveButtonLocater=By.cssSelector("button[type=\"submit\"]");
     By cancelButtonLocator=By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--ghost\"]");
-
-
+//    By employeeUsernameLocator=
+//    By employeePasswordLocator=
+//    By employeeConPasswordLocator=
+    By peterAndersonButton=By.cssSelector("span[class=\"oxd-userdropdown-tab\"]");
+    By logoutButtonLocator=By.cssSelector("a[href=\"/web/index.php/auth/logout\"]");
     //Employee list
     By maleButtonLocator=By.cssSelector("input[value=\"1\"]");
     By femaleButtonLocator=By.cssSelector("input[value=\"2\"]");

@@ -44,7 +44,7 @@ public class BaseTest {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(scrFile, new File("failedScreenshots\\" + testResult.getName() + "-"
-                    + Arrays.toString(testResult.getParameters()) +  ".jpg"));
+                    + Arrays.toString(testResult.getParameters()) +  ".png"));
         }
     }
 
