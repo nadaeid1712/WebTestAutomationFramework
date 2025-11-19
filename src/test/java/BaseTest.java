@@ -20,8 +20,8 @@ public class BaseTest {
 
         @Test(dataProvider ="getLoginData" ,dataProviderClass = TestData.class,priority = 1)
         public void hrLogin(String username,String password){
-            new LoginPage(driver).loginSteps(username,password);
-        }
+        new LoginPage(driver).loginSteps(username,password);
+    }
 
 
 
