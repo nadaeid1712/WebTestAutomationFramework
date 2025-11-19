@@ -8,10 +8,8 @@ public class LogoutPage {
     WebDriver driver;
 
     // Locators
-    //By profileDropdownLocator = By.cssSelector("p.oxd-userdropdown-name");
-    //By logoutButtonLocator = By.xpath("//a[text()='Logout']");
-    By profileDropdownLocator=By.cssSelector("span[class=\"oxd-userdropdown-tab\"]");
-    By logoutButtonLocator = By.xpath("\"a[href=\\\"/web/index.php/auth/logout\\\"]\"");
+    By profileDropdownLocator = By.cssSelector("p.oxd-userdropdown-name");
+    By logoutButtonLocator = By.xpath("//a[text()='Logout']");
 
     // Constructor
     public LogoutPage(WebDriver driver) {
