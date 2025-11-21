@@ -1,2 +1,10 @@
-public class PimEmployeeTest {
+public class PimEmployeeTest extends BaseTest{
+
+
+
+
+
+
+
+
 }

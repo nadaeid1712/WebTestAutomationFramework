@@ -1,9 +1,10 @@
+package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.devtools.v129.page.Page;
 
-public class AssignLeavePage extends Page {
+public class AssignLeavePage3 extends Page {
 
     WebDriver assignLeavePageDriver;
 
@@ -17,7 +18,7 @@ public class AssignLeavePage extends Page {
     By saveAssignLeaveLocator = By.cssSelector("button[type=\"submit\"]");
 
 
-    public AssignLeavePage(WebDriver driver) {assignLeavePageDriver= driver;}
+    public AssignLeavePage3(WebDriver driver) {assignLeavePageDriver= driver;}
 
 
     public void checkAssignLeavePage() {
