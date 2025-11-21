@@ -13,7 +13,7 @@ public class InfoTest extends BaseTest {
     }
 
     @Test(dataProvider ="personalInfo",dataProviderClass = TestData.class, priority = 1)
-    public void updatePersonalInfoTest(String firstName, String middleName , String lastName, String otherId , String license , String dob , String gender, String maritalStatus ){
+    public void updatePersonalInfoTest(String firstName, String middleName , String lastName, String otherId , String license , String dob ,String gender, String maritalStatus ){
 
         // Open My Info menu
         myInfo.openMyInfoIfVisible();
@@ -38,7 +38,7 @@ public class InfoTest extends BaseTest {
                 .setOtherID(otherId)
                 .setLicense(license)
                 .setDateOfBirth(dob)
-            //    .setGender(gender)
+              //  .setGender(gender)
                 .setMaritalStatus(maritalStatus);  // <-- new line
 
         ;

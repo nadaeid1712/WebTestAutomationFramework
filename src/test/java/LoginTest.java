@@ -13,6 +13,7 @@ public class LoginTest extends BaseTest {
 
     LoginPage loginPage=new LoginPage(driver);
 
+
 @Test(priority = 2)
 public void verifyLoginWithInvalidUsername() {
     loginPage.loginSteps("wrongUser", "admin123");

@@ -98,6 +98,8 @@ public class InfoPage {
     }
 
     public void clickSave() {
+
+
         wait.until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
 
         // Optional: wait for toast
