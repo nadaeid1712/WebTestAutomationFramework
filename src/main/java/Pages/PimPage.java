@@ -2,9 +2,15 @@ package Pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class PimPage {
     WebDriver pimDriver;
+
+
+
     By pimLocator= By.cssSelector("a[href='/web/index.php/pim/viewPimModule']");
     By addEmployeeLocator=By.xpath("//a[text()='Add Employee']");
     By firstNameLocator=By.name("firstName");
@@ -14,7 +20,7 @@ public class PimPage {
     By createLoginDetailsLocator=By.cssSelector("span[class=\"oxd-switch-input oxd-switch-input--active --label-right\"]");
     By saveButtonLocater=By.cssSelector("button[type=\"submit\"]");
     By cancelButtonLocator=By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--ghost\"]");
-//    By employeeUsernameLocator=
+    By employeeUsernameLocator=By.cssSelector("input[class=\"oxd-input oxd-input--active\"]");
 //    By employeePasswordLocator=
 //    By employeeConPasswordLocator=
     By peterAndersonButton=By.cssSelector("span[class=\"oxd-userdropdown-tab\"]");
@@ -43,6 +49,27 @@ public class PimPage {
         pimDriver.findElement(employeeIdLocator).sendKeys(String.valueOf(id));
         pimDriver.findElement(saveButtonLocater).click();
     }
+    public void completeBasicEmployee(String firstName,String middleName,String lastName ,String employeeAccount,String employeePassword,String confirmPw){
+        pimDriver.findElement(addEmployeeLocator).click();
+        pimDriver.findElement(firstNameLocator).sendKeys(firstName);
+        pimDriver.findElement(middleNameLocator).sendKeys(middleName);
+        pimDriver.findElement(lastNameLocator).sendKeys(lastName);
+        pimDriver.findElement(createLoginDetailsLocator).click();
+        pimDriver.findElements(employeeUsernameLocator).get(0).sendKeys(employeeAccount);
+        pimDriver.findElements(employeeUsernameLocator).get(1).sendKeys(employeePassword);
+        pimDriver.findElements(employeeUsernameLocator).get(2).sendKeys(confirmPw);
+        pimDriver.findElement(saveButtonLocater).click();
+
+
+
+
+    }
+
+
+
+
+
+
 
 
 

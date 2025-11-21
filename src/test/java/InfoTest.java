@@ -12,8 +12,8 @@ public class InfoTest extends BaseTest {
         myInfo = new InfoPage(driver);
     }
 
-    @Test(priority = 1)
-    public void updatePersonalInfoTest() {
+    @Test(dataProvider ="personalInfo",dataProviderClass = TestData.class, priority = 1)
+    public void updatePersonalInfoTest(String firstName, String middleName , String lastName, String otherId , String license , String dob , String gender, String maritalStatus ){
 
         // Open My Info menu
         myInfo.openMyInfoIfVisible();
@@ -22,14 +22,14 @@ public class InfoTest extends BaseTest {
        // myInfo.clickEdit();
 
         // ---------- Test Data ----------
-        String firstName = "ohood";
-        String middleName = "a";
-        String lastName = "s";
-        String otherId = "55";
-        String license = "gg444";
-        String dob = "2023-02-10";
-        String gender = "female";
-        String maritalStatus = "Married";
+//        String firstName = "ohood";
+//        String middleName = "a";
+//        String lastName = "s";
+//        String otherId = "55";
+//        String license = "gg444";
+//        String dob = "2023-02-10";
+//        String gender = "female";
+//        String maritalStatus = "Married";
 
         // ---------- Update Fields ----------
         myInfo.setFirstName(firstName)

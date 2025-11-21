@@ -31,4 +31,11 @@ public class TestData {
 
         };
     }
+    @DataProvider
+    public Object[][] personalInfo(){
+        return new Object[][]{
+                {"ohood","a","s","55","gg444","2023-02-10","female","Married"}
+        };
+    }
+
 }

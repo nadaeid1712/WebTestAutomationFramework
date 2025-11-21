@@ -39,8 +39,8 @@ public class BaseTest {
 
         }
 
-    @AfterMethod
-    public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
+      @AfterMethod
+       public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
         if (testResult.getStatus() == ITestResult.FAILURE) {
             File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(scrFile, new File("failedScreenshots\\" + testResult.getName() + "-"
