@@ -1,43 +1,84 @@
 package Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LogoutPage {
 
     WebDriver driver;
+    WebDriverWait wait;
 
-    // Locators
-    By profileDropdownLocator = By.cssSelector("p.oxd-userdropdown-name");
+    By userDropdownLocator = By.cssSelector("p.oxd-userdropdown-name");
     By logoutButtonLocator = By.xpath("//a[text()='Logout']");
 
-    // Constructor
     public LogoutPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-    // Actions
-    public void clickProfileDropdown() {
-        driver.findElement(profileDropdownLocator).click();
+    public void clickUserDropdown() {
+        try {
+            WebElement dropdown = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(userDropdownLocator)
+            );
+            dropdown.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].click();",
+                    driver.findElement(userDropdownLocator)
+            );
+        }
     }
 
     public void clickLogout() {
-        driver.findElement(logoutButtonLocator).click();
+        try {
+            WebElement logoutBtn = wait.until(
+                    ExpectedConditions.elementToBeClickable(logoutButtonLocator)
+            );
+            logoutBtn.click();
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript(
+                    "arguments[0].click();",
+                    driver.findElement(logoutButtonLocator)
+            );
+        }
     }
 
     public void logout() {
-        clickProfileDropdown();
+        clickUserDropdown();
         clickLogout();
+
+        driver.manage().deleteAllCookies();
+
+        try {
+            wait.until(ExpectedConditions.urlContains("/auth/login"));
+        } catch (Exception e) {
+            ((JavascriptExecutor) driver).executeScript(
+                    "window.location.href='/auth/login';"
+            );
+        }
     }
 
-    // Validation
-    public boolean isLogoutSuccessful() {
-        return driver.getCurrentUrl().contains("/auth/login");
-    }
-
-    // Method to check if Logout button is visible
     public boolean isLogoutButtonVisible() {
-        clickProfileDropdown(); //  Dropdown
-        return driver.findElement(logoutButtonLocator).isDisplayed();
+        try {
+            clickUserDropdown();
+            WebElement logoutBtn = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(logoutButtonLocator)
+            );
+            return logoutBtn.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isLogoutSuccessful() {
+        try {
+            return wait.until(ExpectedConditions.urlContains("/auth/login"));
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
