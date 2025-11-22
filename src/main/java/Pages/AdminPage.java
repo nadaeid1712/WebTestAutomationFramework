@@ -1,108 +1,113 @@
 package Pages;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 import java.util.List;
-import org.openqa.selenium.NoSuchElementException;
 
 public class AdminPage {
+
     WebDriver driver;
+    WebDriverWait wait;
 
-    // Locators
-    private final By adminMenuLocator = By.cssSelector("#menu_admin_viewAdminModule");
-    private final By userManagementMenuLocator = By.cssSelector("#menu_admin_UserManagement");
-    private final By searchUsernameLocator = By.cssSelector("input[name='searchSystemUser[userName]']");
-    private final By searchButtonLocator = By.cssSelector("input#searchBtn");
-    private final By resultTableRowsLocator = By.cssSelector("table#resultTable tbody tr");
-    private final By addButtonLocator = By.cssSelector("#btnAdd");
-    private final By deleteButtonLocator = By.cssSelector("#btnDelete");
-    private final By selectAllCheckboxLocator = By.cssSelector("#ohrmList_chkSelectAll");
-    private final By confirmDeleteButtonLocator = By.cssSelector("#dialogDeleteBtn");
-
-    private final By userRoleLocator = By.cssSelector("select#systemUser_userType");
-    private final By employeeNameLocator = By.cssSelector("input#systemUser_employeeName_empName");
-    private final By usernameLocator = By.cssSelector("input#systemUser_userName");
-    private final By statusLocator = By.cssSelector("select#systemUser_status");
-    private final By passwordLocator = By.cssSelector("input#systemUser_password");
-    private final By confirmPasswordLocator = By.cssSelector("input#systemUser_confirmPassword");
-    private final By saveButtonLocator = By.cssSelector("#btnSave");
-
-    // Constructor
     public AdminPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // Admin Menu Actions
-    public void clickAdminMenu() {
+    // Admin menu locators
+    By adminMenuLocator = By.xpath("//span[text()='Admin']/parent::a");
+    By userManagementTabLocator = By.xpath("//span[normalize-space()='User Management']");
+    // public so i can see it in test page
+    public  By usersOptionLocator = By.xpath("//a[normalize-space()='Users']");
+
+    // Users search screen locators
+    By usernameInputLocator = By.xpath("//label[text()='Username']/../following-sibling::div//input");
+    By userRoleDropdownLocator = By.xpath("//label[text()='User Role']/../following-sibling::div//div[contains(@class,'oxd-select-text')]");
+    By employeeNameInputLocator = By.xpath("//label[text()='Employee Name']/../following-sibling::div//input");
+    By statusDropdownLocator = By.xpath("//label[text()='Status']/../following-sibling::div//div[contains(@class,'oxd-select-text')]");
+    By searchButtonLocator = By.xpath("//button[normalize-space()='Search']");
+    By resetButtonLocator = By.xpath("//button[normalize-space()='Reset']");
+
+    // Action locators
+    By deleteActionLocator = By.xpath("//i[contains(@class,'bi-trash')]");
+    By editActionLocator = By.xpath("//i[contains(@class,'bi-pencil-fill')]");
+
+    // Add User locators
+    By addButtonLocator = By.xpath("//button[text()=' Add ']");
+    By userRoleLocator = By.xpath("//div[@class='oxd-select-text-input']");
+    By empNameInputLocator = By.xpath("//input[@placeholder='Type for hints...']");
+    By statusLocator = By.xpath("//div[@role='option' and text()='Admin']");
+    By addUserNameLocator = By.xpath("//input[@placeholder='Username']");
+    By passwordLocator1 = By.xpath("(//input[@type='password'])[1]");
+    By passwordConfirmLocator = By.xpath("(//input[@type='password'])[2]");
+    By saveButtonLocator = By.cssSelector("button.orangehrm-left-space");
+    By cancelButtonLocator = By.xpath("//button[text()=' Cancel ']");
+
+    //Actions
+
+    //1- Navigate to Users page
+    public void navigateToUsersPage() {
         driver.findElement(adminMenuLocator).click();
+        driver.findElement(userManagementTabLocator).click();
+        driver.findElement(usersOptionLocator).click();
     }
 
-    public void clickUserManagementMenu() {
-        driver.findElement(userManagementMenuLocator).click();
-    }
-
-    // Search Actions
-    public void enterSearchUsername(String username) {
-        driver.findElement(searchUsernameLocator).clear();
-        driver.findElement(searchUsernameLocator).sendKeys(username);
-    }
-
-    public void clickSearch() {
+    //2- Search user
+    public void searchUser(String username) {
+        WebElement userInput = driver.findElement(usernameInputLocator);
+        userInput.clear();
+        userInput.sendKeys(username);
         driver.findElement(searchButtonLocator).click();
     }
 
-    public boolean isUserDisplayed(String username) {
-        List<WebElement> rows = driver.findElements(resultTableRowsLocator);
-        for (WebElement row : rows) {
-            if (row.getText().contains(username)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Add/Delete Actions
-    public void clickAdd() {
+    // 3-Click Add User button
+    public void clickAddUser() {
         driver.findElement(addButtonLocator).click();
     }
 
-    public void selectUserRoleForNewUser(String role) {
-        driver.findElement(userRoleLocator).sendKeys(role);
-    }
+    // 4-Fill Add User form screen
+    public void addUser(String role, String empName, String username, String password) {
+        // User Role dropdown
+        driver.findElement(userRoleLocator).click();
+        By roleOptionLocator = By.xpath("//div[@role='option' and text()='" + role + "']");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(roleOptionLocator));
+        driver.findElement(roleOptionLocator).click();
 
-    public void enterEmployeeNameForNewUser(String empName) {
-        driver.findElement(employeeNameLocator).sendKeys(empName);
-    }
+        // 5-Employee Name autocomplete
+        WebElement empInput = driver.findElement(empNameInputLocator);
+        empInput.sendKeys(empName);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'oxd-autocomplete-option')]")));
+        driver.findElement(By.xpath("//div[contains(@class,'oxd-autocomplete-option') and text()='" + empName + "']")).click();
 
-    public void enterUsernameForNewUser(String username) {
-        driver.findElement(usernameLocator).sendKeys(username);
-    }
+        // Username
+        driver.findElement(addUserNameLocator).sendKeys(username);
 
-    public void selectStatusForNewUser(String status) {
-        driver.findElement(statusLocator).sendKeys(status);
-    }
+        // Password
+        driver.findElement(passwordLocator1).sendKeys(password);
+        driver.findElement(passwordConfirmLocator).sendKeys(password);
 
-    public void enterPasswordForNewUser(String password) {
-        driver.findElement(passwordLocator).sendKeys(password);
-    }
-
-    public void enterConfirmPasswordForNewUser(String password) {
-        driver.findElement(confirmPasswordLocator).sendKeys(password);
-    }
-
-    public void clickSaveUser() {
+        // Save
         driver.findElement(saveButtonLocator).click();
     }
+    // Cancel for Adding User
+  public void cancelAddUser(){
+    driver.findElement(cancelButtonLocator).click();
 
-    public void selectAllUsers() {
-        driver.findElement(selectAllCheckboxLocator).click();
+  }
+    // Delete first user in the table
+    public void deleteFirstUser() {
+        driver.findElement(deleteActionLocator).click();
+        By confirmButton = By.xpath("//button[text()=' Yes, Delete ']");
+        wait.until(ExpectedConditions.elementToBeClickable(confirmButton)).click();
     }
 
-    public void clickDelete() {
-        driver.findElement(deleteButtonLocator).click();
+    // Edit first user
+    public void editFirstUser() {
+        driver.findElement(editActionLocator).click();
     }
 
-    public void confirmDelete() {
-        driver.findElement(confirmDeleteButtonLocator).click();
-    }
 }

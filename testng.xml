@@ -2,7 +2,7 @@
 <suite name="Suite1">
     <test name="AdminTests">
         <classes>
-            <class name/>
+            <class name="AdminTest"/>
         </classes>
     </test>
 </suite>
