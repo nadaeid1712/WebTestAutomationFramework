@@ -11,6 +11,8 @@ public class LoginTest extends BaseTest {
         loginPage = new LoginPage(driver);
     }
 
+
+
     private void safeLogout() {
         try {
             loginPage.logout();

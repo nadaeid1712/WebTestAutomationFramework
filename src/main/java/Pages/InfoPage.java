@@ -35,6 +35,21 @@ public class InfoPage {
 
     // Save button
     By saveBtn = By.xpath("//button[contains(.,'Save')]");
+    By personalDetailsTab = By.xpath("//a[contains(@href,'personalDetails')]");
+    By attachmentsTab = By.xpath("//h6[text()='Attachments']");
+
+    // ---------- Attachment Section Locators ----------
+    private By addButton = By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--text\"]");
+    private By fileInput = By.xpath("//input[@type='file']");
+    private By descriptionTextarea = By.xpath("//textarea");
+    private By saveButton = By.xpath("//button[contains(., 'Save')]");
+    private By confirmDeleteButton = By.xpath("//button[contains(., 'Yes, Delete')]");
+
+    // Get attachment row by filename
+    private By getRow(String fileName) {
+        return By.xpath("//div[@class='oxd-table-card'][.//div[contains(text(), '" + fileName + "')]]");
+    }
+
 
     public InfoPage(WebDriver driver) {
         this.driver = driver;
@@ -148,4 +163,72 @@ public class InfoPage {
             return "Female";
         return "";
     }
+    // ---------- Wait Helpers ----------
+    private void waitForOverlayToDisappear() {
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                    By.cssSelector("div.oxd-overlay")
+            ));
+        } catch (Exception ignored) {
+        }
+    }
+
+    private WebElement clickable(By locator) {
+        waitForOverlayToDisappear();
+        return wait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
+
+    // ---------- Navigation ----------
+    public void openMyInfo() {
+        clickable(myInfoMenu).click();
+    }
+
+    public void openPersonalDetails() {
+        clickable(personalDetailsTab).click();
+    }
+
+    public void openAttachments() {
+        clickable(attachmentsTab).click();
+        waitForOverlayToDisappear();
+    }
+
+    // ============================================================
+    //                     ATTACHMENT METHODS
+    // ============================================================
+    public void uploadAttachment(String filePath, String description) {
+
+        openAttachments();
+
+        clickable(addButton).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(fileInput))
+                .sendKeys(filePath);
+
+        driver.findElement(descriptionTextarea).sendKeys(description);
+
+        clickable(saveButton).click();
+
+        // Wait for popup to close
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(saveButton));
+    }
+
+    public void deleteAttachment(String fileName) {
+
+        openAttachments();
+
+        WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(getRow(fileName)));
+        row.findElement(By.xpath(".//button[contains(@class,'bi-trash')]")).click();
+
+        clickable(confirmDeleteButton).click();
+
+        wait.until(ExpectedConditions.invisibilityOf(row));
+    }
+
+    public boolean isAttachmentPresent(String fileName) {
+        openAttachments();
+        List<WebElement> rows = driver.findElements(getRow(fileName));
+        return !rows.isEmpty();
+    }
 }
+
+
+

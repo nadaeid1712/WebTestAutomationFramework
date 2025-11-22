@@ -57,4 +57,33 @@ public class InfoTest extends BaseTest {
         Assert.assertEquals(myInfo.getMaritalStatus(), maritalStatus, "Marital Status not updated");
 
     }
+    @Test(priority = 2)
+    public void testUploadAttachment() throws Exception {
+
+        String filePath = System.getProperty("user.dir") + "/testFiles/test-document.pdf";
+        String description = "Test Upload File";
+        String fileName = "test-document.pdf";
+
+        myInfo.uploadAttachment(filePath, description);
+
+        // Assertion: verify file is uploaded
+        Assert.assertTrue(myInfo.isAttachmentPresent(fileName),
+                "Attachment was not uploaded successfully!");
+    }
+
+    @Test(priority = 3)
+    public void testDeleteAttachment() throws Exception {
+
+        String fileName = "test-document.pdf";
+
+        myInfo.deleteAttachment(fileName);
+
+        // Assertion: verify file is deleted
+        Assert.assertFalse(myInfo.isAttachmentPresent(fileName),
+                "Attachment was not deleted successfully!");
+    }
+
+
+
+
 }

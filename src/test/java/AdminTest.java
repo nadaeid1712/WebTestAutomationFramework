@@ -13,7 +13,7 @@ public class AdminTest extends BaseTest {
 
     AdminPage adminPage;
 
-    @Test(priority = 1, description = "Add a new user")
+    @Test(priority = 2, description = "Add a new user")
     public void testAddUser() {
         adminPage = new AdminPage(driver);  //connect page with driver
         adminPage.navigateToUsersPage();    // Navigate to user page
@@ -22,26 +22,26 @@ public class AdminTest extends BaseTest {
         adminPage.addUser("Admin", "John Smith", "john.smith1", "Password123!");
     }
 
-    @Test(priority = 2, description = "Search for the added user")
+    @Test(priority = 3, description = "Search for the added user")
     public void testSearchUser() {
         adminPage.navigateToUsersPage();
         adminPage.searchUser("john.smith1"); // search with username : john.smith1
     }
 
-    @Test(priority = 3, description = "Edit the first user in the table")
+    @Test(priority = 4, description = "Edit the first user in the table")
     public void testEditUser() {
         adminPage.navigateToUsersPage();
         adminPage.editFirstUser();
         // Editing / update data in edit screen form
     }
 
-    @Test(priority = 4, description = "Delete the first user in the table")
+    @Test(priority = 5, description = "Delete the first user in the table")
     public void testDeleteUser() {
         adminPage.navigateToUsersPage();
         adminPage.deleteFirstUser(); // delete action
     }
 
-    @Test(priority = 5, description = "Cancel Add User form")
+    @Test(priority = 6, description = "Cancel Add User form")
     public void testCancelAddUser() {
         adminPage.navigateToUsersPage();
         adminPage.clickAddUser();
