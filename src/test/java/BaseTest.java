@@ -14,39 +14,45 @@ import java.util.Arrays;
 
 public class BaseTest {
 
-    protected WebDriver driver;
-    protected String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+
+    WebDriver driver = new ChromeDriver();
+    String url="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+
+    @Test(dataProvider ="getLoginData" ,dataProviderClass = TestData.class,priority = 1)
+    public void hrLogin(String username,String password){
+        new LoginPage(driver).loginSteps(username,password);
+    }
+
+
 
     @BeforeClass
-    public void setupDriver() {
-        driver = new ChromeDriver();
+    public void navigate() {
+        driver.get(url);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        driver.get(url);
 
-        File screenshotDir = new File("failedScreenshots");
-        if (!screenshotDir.exists()) screenshotDir.mkdir();
     }
 
     @AfterClass
-    public void quitDriver() {
-        if (driver != null) {
-            driver.quit();
-        }
+    public void quit() {
+        driver.quit();
+
     }
 
     @AfterMethod
-    public void takeScreenshotOnFailure(ITestResult testResult) {
+    public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
         if (testResult.getStatus() == ITestResult.FAILURE) {
-            try {
-                File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-                String fileName = "failedScreenshots" + File.separator +
-                        testResult.getName() + "-" +
-                        Arrays.toString(testResult.getParameters()) + ".png";
-                FileUtils.copyFile(scrFile, new File(fileName));
-            } catch (IOException e) {
-                System.out.println("Failed to take screenshot: " + e.getMessage());
-            }
+            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(scrFile, new File("failedScreenshots\\" + testResult.getName() + "-"
+                    + Arrays.toString(testResult.getParameters()) +  ".png"));
         }
     }
+
+
+
+
 }
+
+
+
+
