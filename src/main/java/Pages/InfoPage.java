@@ -30,7 +30,7 @@ public class InfoPage {
 
     // Gender
     By genderMaleRadio = By.xpath("//input[@type='radio' and @value='1']");
-    By genderFemaleRadio = By.xpath("//input[@type='radio' and @value='2']");
+    By genderFemaleRadio = By.cssSelector("input[value=\"2\"]");
     By maritalStatusDropdown = By.xpath("//label[text()='Marital Status']/../following-sibling::div//select");
 
     // Save button
