@@ -10,60 +10,64 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class LeaveListPage {
+    WebDriver leaveListPageDriver;
 
-    WebDriver LeaveListPageDriver;
-    WebDriverWait wait;
-    By leaveButtonLocator = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[3]/a");
-    By leaveListTitle = By.xpath("//h5[text()='Leave List']");
-    By statusDropdown = By.xpath("(//div[contains(@class,'oxd-select-text-input')])[1]");
-    By leaveTypeDropdown = By.xpath("(//div[contains(@class,'oxd-select-text-input')])[2]");
-    By searchBtn = By.xpath("//button[@type='submit']");
-    By resetBtn = By.xpath("//button[@type='reset']");
-    By firstResultStatus = By.xpath("(//div[@class='oxd-table-card']//div[@role='cell'])[3]");
-
-
-    public LeaveListPage(WebDriver driver) {
-        LeaveListPageDriver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    // --- MENU ---
+    By leaveMenu = By.xpath("//span[text()='Leave']/parent::a");
+    // Leave List tab
+    By leaveListTab = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/header/div[2]/nav/ul/li[6]/a");
+    // --- DATE INPUTS ---
+    By fromDate= By.xpath("//input[@placeholder='From Date']");
+    By toDate= By.xpath("//input[@placeholder='To Date']");
+    // --- STATUS DROPDOWN ---
+    By statusDropdown = By.xpath("(//div[@class='oxd-select-text-input'])[1]");
+    // --- LEAVE TYPE DROPDOWN ---
+    By leaveTypeDropdown = By.xpath("(//div[@class='oxd-select-text-input'])[2]");
+    // --- EMPLOYEE NAME ---
+    By employeeInput = By.xpath("//input[@placeholder='Type for hints...']");
+    // --- SUB UNIT DROPDOWN ---
+    By subUnitDropdown = By.xpath("(//div[@class='oxd-select-text-input'])[3]");
+    // --- SEARCH BUTTON ---
+    By searchButton = By.xpath("//button[.=' Search ']");
+    // --- RESET BUTTON ---
+    By resetButton = By.xpath("//button[.=' Reset ']");
+    public LeaveListPage(WebDriver driver){
+        leaveListPageDriver=driver;
+    }
+    // Open Leave List page
+    public void openLeaveList() {
+        leaveListPageDriver.findElement(leaveMenu).click();
+        leaveListPageDriver.findElement(leaveListTab).click();
     }
 
-        private By option (String text){
-            return By.xpath("//span[normalize-space()='" + text + "']");
-        }
+    // Set Date Range
+    public void setDateRange(String from, String to) {
+        leaveListPageDriver.findElement(fromDate).clear();
+        leaveListPageDriver.findElement(fromDate).sendKeys(from);
 
-        public void waitForPage () {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(leaveListTitle));
-        }
-
-        public void selectLeaveButton () {
-            LeaveListPageDriver.findElement(leaveButtonLocator).click();
-        }
-
-
-        public void selectStatus (String status){
-            wait.until(ExpectedConditions.elementToBeClickable(statusDropdown)).click();
-            wait.until(ExpectedConditions.elementToBeClickable(option(status))).click();
-        }
-
-        public void selectLeaveType (String type){
-            wait.until(ExpectedConditions.elementToBeClickable(leaveTypeDropdown)).click();
-            wait.until(ExpectedConditions.elementToBeClickable(option(type))).click();
-        }
-
-        public void clickSearch () {
-            wait.until(ExpectedConditions.elementToBeClickable(searchBtn)).click();
-        }
-
-        public void clickReset () {
-            wait.until(ExpectedConditions.elementToBeClickable(resetBtn)).click();
-        }
-
-        public String getFirstResultStatus () {
-            WebElement statusCell =
-                    wait.until(ExpectedConditions.visibilityOfElementLocated(firstResultStatus));
-            return statusCell.getText().trim();
-        }
+        leaveListPageDriver.findElement(toDate).clear();
+        leaveListPageDriver.findElement(toDate).sendKeys(to);
     }
+
+    // Select from dropdown by visible text (generic)
+    public void selectFromDropdown(By dropdown, String option) {
+        leaveListPageDriver.findElement(dropdown).click();
+        By optionLocator = By.xpath("//div[@role='option']//span[text()='" + option + "']");
+        leaveListPageDriver.findElement(optionLocator).click();
+    }
+
+    // Search for leave entries
+    public void clickSearch() {
+        leaveListPageDriver.findElement(searchButton).click();
+    }
+    //reset
+    public void setResetButton() {
+        leaveListPageDriver.findElement(resetButton).click();
+    }}
+
+
+
+
 
 
 
