@@ -1,5 +1,3 @@
-
-
 import Pages.LoginPage;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -8,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
@@ -15,49 +14,39 @@ import java.util.Arrays;
 
 public class BaseTest {
 
+    protected WebDriver driver;
+    protected String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
 
-        WebDriver driver = new ChromeDriver();
-        String url="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+    @BeforeClass
+    public void setupDriver() {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.get(url);
 
-        @Test(dataProvider ="getLoginData" ,dataProviderClass = TestData.class,priority = 1)
-        public void hrLogin(String username,String password){
-        new LoginPage(driver).loginSteps(username,password);
+        File screenshotDir = new File("failedScreenshots");
+        if (!screenshotDir.exists()) screenshotDir.mkdir();
     }
 
-
-
-        @BeforeClass
-        public void navigate() {
-            driver.get(url);
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-
-        }
-
-        @AfterClass
-        public void quit() {
+    @AfterClass
+    public void quitDriver() {
+        if (driver != null) {
             driver.quit();
-
         }
+    }
 
-      @AfterMethod
-       public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
+    @AfterMethod
+    public void takeScreenshotOnFailure(ITestResult testResult) {
         if (testResult.getStatus() == ITestResult.FAILURE) {
-            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(scrFile, new File("failedScreenshots\\" + testResult.getName() + "-"
-                    + Arrays.toString(testResult.getParameters()) +  ".png"));
+            try {
+                File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                String fileName = "failedScreenshots" + File.separator +
+                        testResult.getName() + "-" +
+                        Arrays.toString(testResult.getParameters()) + ".png";
+                FileUtils.copyFile(scrFile, new File(fileName));
+            } catch (IOException e) {
+                System.out.println("Failed to take screenshot: " + e.getMessage());
+            }
         }
     }
-
-
-
-
-    }
-
-
-
-
-
-
-
-
+}
