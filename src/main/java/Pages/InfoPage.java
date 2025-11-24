@@ -117,18 +117,6 @@ public class InfoPage {
     }
 
 
-//    public void clickSave() {
-//
-//
-//        wait.until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
-//
-//        // Optional: wait for toast
-//        try {
-//            wait.until(ExpectedConditions.visibilityOfElementLocated(
-//                    By.xpath("//div[contains(@class,'oxd-toast')]")
-//            ));
-//        } catch (Exception ignored) {}
-//    }
 public void clickSave() {
     try {
         // Wait for the Save button to be visible
