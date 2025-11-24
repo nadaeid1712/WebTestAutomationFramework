@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
+
 public class InfoPage {
 
     WebDriver driver;
@@ -25,6 +26,11 @@ public class InfoPage {
     By otherIDInput = By.xpath("//label[text()='Other Id']/../following-sibling::div/input");
     By licenseInput = By.xpath("//label[contains(text(),'Driver')]/../following-sibling::div/input");
 
+
+     By uploadInput = By.cssSelector("i[class=\"oxd-icon bi-plus\"]");
+     By saveBtn = By.xpath("//button[contains(.,'Save')]");By myInfoTab = By.xpath("//span[text()='My Info']");
+     By profilePic = By.cssSelector("img.employee-image");
+
     // Date of Birth
     By dobInput = By.xpath("//label[text()='Date of Birth']/../following-sibling::div//input");
 
@@ -34,7 +40,7 @@ public class InfoPage {
     By maritalStatusDropdown = By.xpath("//label[text()='Marital Status']/../following-sibling::div//select");
 
     // Save button
-    By saveBtn = By.xpath("//button[contains(.,'Save')]");
+   // By saveBtn = By.xpath("//button[contains(.,'Save')]");
     By personalDetailsTab = By.xpath("//a[contains(@href,'personalDetails')]");
     By attachmentsTab = By.xpath("//h6[text()='Attachments']");
 
@@ -111,6 +117,7 @@ public class InfoPage {
         }
         return this;
     }
+
 
     public void clickSave() {
 
@@ -227,6 +234,28 @@ public class InfoPage {
         openAttachments();
         List<WebElement> rows = driver.findElements(getRow(fileName));
         return !rows.isEmpty();
+    }
+    public void openProfilePic() {
+        driver.findElement(profilePic).click();
+    }
+//    public void uploadPicture(String imagePath) {
+//        WebElement fileInput = driver.findElement(uploadInput);
+//        fileInput.sendKeys(imagePath);
+////        driver.findElement(uploadInput).
+////        driver.findElement(uploadInput).sendKeys(imagePath);
+//    }
+
+public void uploadPicture(String imagePath) {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+    WebElement fileInput = wait.until(
+            ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[type='file']"))
+    );
+
+    fileInput.sendKeys(imagePath);  // send directly to hidden input
+}
+    public void savePicture() {
+        driver.findElement(saveBtn).click();
     }
 }
 
