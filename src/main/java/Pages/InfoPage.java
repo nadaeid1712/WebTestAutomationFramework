@@ -3,9 +3,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 import java.util.List;
 
@@ -119,18 +117,47 @@ public class InfoPage {
     }
 
 
-    public void clickSave() {
+//    public void clickSave() {
+//
+//
+//        wait.until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
+//
+//        // Optional: wait for toast
+//        try {
+//            wait.until(ExpectedConditions.visibilityOfElementLocated(
+//                    By.xpath("//div[contains(@class,'oxd-toast')]")
+//            ));
+//        } catch (Exception ignored) {}
+//    }
+public void clickSave() {
+    try {
+        // Wait for the Save button to be visible
+        WebElement save = wait.until(ExpectedConditions.visibilityOfElementLocated(saveBtn));
 
+        // Scroll it into view
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", save);
 
-        wait.until(ExpectedConditions.elementToBeClickable(saveBtn)).click();
+        // Try normal Selenium click first
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(save)).click();
+        } catch (ElementClickInterceptedException e) {
+            // If intercepted, use JS click as fallback
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", save);
+        }
 
-        // Optional: wait for toast
+        // Optional: wait for success toast notification
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[contains(@class,'oxd-toast')]")
+                    By.cssSelector(".oxd-toast-container")
             ));
         } catch (Exception ignored) {}
+
+    } catch (TimeoutException e) {
+        throw new RuntimeException("Save button was not found or not clickable.", e);
     }
+}
+
+
 
     // ---------- Getters ----------
     public String getFirstName() {
@@ -238,12 +265,7 @@ public class InfoPage {
     public void openProfilePic() {
         driver.findElement(profilePic).click();
     }
-//    public void uploadPicture(String imagePath) {
-//        WebElement fileInput = driver.findElement(uploadInput);
-//        fileInput.sendKeys(imagePath);
-////        driver.findElement(uploadInput).
-////        driver.findElement(uploadInput).sendKeys(imagePath);
-//    }
+
 
 public void uploadPicture(String imagePath) {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
