@@ -12,7 +12,7 @@ public class InfoPage {
 
     WebDriver driver;
     WebDriverWait wait;
-
+   // button[type="submit"]
     // ---------- Locators ----------
     // My info menu (only used if visible)
     By myInfoMenu = By.xpath("//a[contains(@href,'viewMyDetails')]");
@@ -31,7 +31,6 @@ public class InfoPage {
 
     // Date of Birth
     By dobInput = By.xpath("//label[text()='Date of Birth']/../following-sibling::div//input");
-
     // Gender
     By genderMaleRadio = By.xpath("//input[@type='radio' and @value='1']");
     By genderFemaleRadio = By.cssSelector("input[value=\"2\"]");
@@ -46,7 +45,7 @@ public class InfoPage {
     private By addButton = By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--text\"]");
     private By fileInput = By.xpath("//input[@type='file']");
     private By descriptionTextarea = By.xpath("//textarea");
-    private By saveButton = By.xpath("//button[contains(., 'Save')]");
+    private By saveButton = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/div/div[2]/div[3]/div/form/div[3]/button[2]");
     private By confirmDeleteButton = By.xpath("//button[contains(., 'Yes, Delete')]");
 
     // Get attachment row by filename
@@ -213,35 +212,59 @@ public void clickSave() {
         clickable(attachmentsTab).click();
         waitForOverlayToDisappear();
     }
-
-    // ============================================================
-    //                     ATTACHMENT METHODS
-    // ============================================================
     public void uploadAttachment(String filePath, String description) {
-
         openAttachments();
 
-        clickable(addButton).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(fileInput))
-                .sendKeys(filePath);
+        WebElement addBtn = wait.until(ExpectedConditions.elementToBeClickable(addButton));
+        scrollAndClick(addBtn);
 
-        driver.findElement(descriptionTextarea).sendKeys(description);
+        WebElement fileInputElement = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
+        fileInputElement.sendKeys(filePath);
 
-        clickable(saveButton).click();
+        WebElement descTextarea = wait.until(ExpectedConditions.visibilityOfElementLocated(descriptionTextarea));
+        descTextarea.sendKeys(description);
 
-        // Wait for popup to close
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(saveButton));
+        WebElement saveBtn = wait.until(ExpectedConditions.elementToBeClickable(saveButton));
+        scrollAndClick(saveBtn);
+
+        // الانتظار على إشعار النجاح بدلاً من الزر
+        By toastMessage = By.cssSelector(".oxd-toast");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(toastMessage));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(toastMessage));
     }
 
-    public void deleteAttachment(String fileName) {
 
+    /**
+     * Utility لتمرير العنصر إلى منتصف الشاشة ثم الضغط عليه
+     * يساعد على حل مشاكل ElementClickInterceptedException
+     */
+    private void scrollAndClick(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            // إذا تم اعتراض النقر، استخدم JS click
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void deleteAttachment(WebDriver driver, String fileName) {
         openAttachments();
-
         WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(getRow(fileName)));
-        row.findElement(By.xpath(".//button[contains(@class,'bi-trash')]")).click();
-
+        row.findElement(By.cssSelector("i[class=\"oxd-icon bi-trash\"]")).click();
         clickable(confirmDeleteButton).click();
-
         wait.until(ExpectedConditions.invisibilityOf(row));
     }
 
