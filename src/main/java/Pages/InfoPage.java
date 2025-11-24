@@ -1,273 +1,187 @@
 package Pages;
-import org.openqa.selenium.support.ui.Select;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
 import java.time.Duration;
-import java.util.List;
-
 
 public class InfoPage {
-
-    WebDriver driver;
-    WebDriverWait wait;
-
-    // ---------- Locators ----------
-    // My info menu (only used if visible)
-    By myInfoMenu = By.xpath("//a[contains(@href,'viewMyDetails')]");
-
-    // Inputs
-    By firstNameInput = By.name("firstName");
-    By middleNameInput = By.name("middleName");
-    By lastNameInput = By.name("lastName");
-    By otherIDInput = By.xpath("//label[text()='Other Id']/../following-sibling::div/input");
-    By licenseInput = By.xpath("//label[contains(text(),'Driver')]/../following-sibling::div/input");
-
-
-     By uploadInput = By.cssSelector("i[class=\"oxd-icon bi-plus\"]");
-     By saveBtn = By.xpath("//button[contains(.,'Save')]");By myInfoTab = By.xpath("//span[text()='My Info']");
-     By profilePic = By.cssSelector("img.employee-image");
-
-    // Date of Birth
-    By dobInput = By.xpath("//label[text()='Date of Birth']/../following-sibling::div//input");
-
-    // Gender
-    By genderMaleRadio = By.xpath("//input[@type='radio' and @value='1']");
-    By genderFemaleRadio = By.cssSelector("input[value=\"2\"]");
-    By maritalStatusDropdown = By.xpath("//label[text()='Marital Status']/../following-sibling::div//select");
-
-    // Save button
-   // By saveBtn = By.xpath("//button[contains(.,'Save')]");
-    By personalDetailsTab = By.xpath("//a[contains(@href,'personalDetails')]");
-    By attachmentsTab = By.xpath("//h6[text()='Attachments']");
-
-    // ---------- Attachment Section Locators ----------
-    private By addButton = By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--text\"]");
-    private By fileInput = By.xpath("//input[@type='file']");
-    private By descriptionTextarea = By.xpath("//textarea");
-    private By saveButton = By.xpath("//button[contains(., 'Save')]");
-    private By confirmDeleteButton = By.xpath("//button[contains(., 'Yes, Delete')]");
-
-    // Get attachment row by filename
-    private By getRow(String fileName) {
-        return By.xpath("//div[@class='oxd-table-card'][.//div[contains(text(), '" + fileName + "')]]");
-    }
-
-
+    private WebDriver driver;
+    private WebDriverWait wait;
     public InfoPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(8));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));   // faster
+    }
+    private By myInfoMenu = By.xpath("//a[contains(@href,'viewMyDetails')]");
+    private By firstNameInput = By.name("firstName");
+    private By middleNameInput = By.name("middleName");
+    private By lastNameInput = By.name("lastName");
+    private By otherIDInput = By.xpath("//label[text()='Other Id']/../following-sibling::div/input");
+    private By licenseInput = By.xpath("//label[contains(text(),'Driver')]/../following-sibling::div/input");
+    private By dobInput = By.xpath("//label[text()='Date of Birth']/../following-sibling::div//input");
+    private By genderMale = By.cssSelector("input[value='1']");
+    private By genderFemale = By.cssSelector("input[value='2']");
+
+    private By maritalDropdown = By.xpath("//label[text()='Marital Status']/../following-sibling::div//select");
+
+    private By saveBtn = By.xpath("//button[contains(.,'Save')]");
+    // Attachments
+    private By attachmentsTab = By.xpath("//h6[text()='Attachments']");
+    private By addButton = By.cssSelector("button.oxd-button--text");
+    private By fileInput = By.cssSelector("input[type='file']");
+    private By descriptionTextarea = By.tagName("textarea");
+    private By toast = By.cssSelector(".oxd-toast");
+
+    private By confirmDeleteButton = By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--label-danger orangehrm-button-margin\"]");
+
+    private By getRow(String fileName) {
+        return By.xpath("//div[@class='oxd-table-card'][.//div[contains(text(),'" + fileName + "')]]");
     }
 
-    // ---------- Optional Navigation ----------
-    public void openMyInfoIfVisible() {
-        List<WebElement> items = driver.findElements(myInfoMenu);
-        if (!items.isEmpty()) {
-            wait.until(ExpectedConditions.elementToBeClickable(myInfoMenu)).click();
-        }
+    private By overlay = By.cssSelector("div.oxd-overlay");
+
+    // Profile pic
+    private By profilePic = By.cssSelector("img.employee-image");
+    private By savePictureButton = By.xpath("//button[contains(., 'Save')]");
+
+
+    private WebElement visible(By loc) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(loc));
     }
 
-    // ---------- Utility ----------
+    private WebElement clickable(By loc) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(overlay));
+        return wait.until(ExpectedConditions.elementToBeClickable(loc));
+    }
+
     private void clearAndType(By locator, String value) {
-        WebElement field = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        field.sendKeys(Keys.CONTROL + "a");
+        WebElement field = visible(locator);
+        field.sendKeys(Keys.chord(Keys.CONTROL, "a"));
         field.sendKeys(Keys.DELETE);
         field.sendKeys(value);
     }
 
-    // ---------- Setters ----------
-    public InfoPage setFirstName(String value) { clearAndType(firstNameInput, value); return this; }
-    public InfoPage setMiddleName(String value) { clearAndType(middleNameInput, value); return this; }
-    public InfoPage setLastName(String value) { clearAndType(lastNameInput, value); return this; }
-    public InfoPage setOtherID(String value) { clearAndType(otherIDInput, value); return this; }
-    public InfoPage setLicense(String value) { clearAndType(licenseInput, value); return this; }
-
-    // ---------- Setter ----------
-    public InfoPage setMaritalStatus(String status) {
-        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(maritalStatusDropdown));
-        Select select = new Select(dropdown);
-        select.selectByVisibleText(status);
-        return this;
+    private void clickJS(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
 
-    // ---------- Getter ----------
-    public String getMaritalStatus() {
-        WebElement dropdown = driver.findElement(maritalStatusDropdown);
-        Select select = new Select(dropdown);
-        return select.getFirstSelectedOption().getText();
+    private void scrollIntoView(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript(
+                "arguments[0].scrollIntoView({block:'center'});", element);
     }
 
-    public InfoPage setDateOfBirth(String value) {
-        WebElement e = wait.until(ExpectedConditions.elementToBeClickable(dobInput));
-        e.sendKeys(Keys.CONTROL + "a");
-        e.sendKeys(Keys.DELETE);
-        e.sendKeys(value);
-        e.sendKeys(Keys.ENTER); // important for OrangeHRM
-        return this;
-    }
-
-    public InfoPage setGender(String gender) {
-        if (gender.equalsIgnoreCase("male")) {
-            wait.until(ExpectedConditions.elementToBeClickable(genderMaleRadio)).click();
-        } else if (gender.equalsIgnoreCase("female")) {
-            wait.until(ExpectedConditions.elementToBeClickable(genderFemaleRadio)).click();
-        }
-        return this;
-    }
-
-
-public void clickSave() {
-    try {
-        // Wait for the Save button to be visible
-        WebElement save = wait.until(ExpectedConditions.visibilityOfElementLocated(saveBtn));
-
-        // Scroll it into view
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", save);
-
-        // Try normal Selenium click first
-        try {
-            wait.until(ExpectedConditions.elementToBeClickable(save)).click();
-        } catch (ElementClickInterceptedException e) {
-            // If intercepted, use JS click as fallback
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", save);
-        }
-
-        // Optional: wait for success toast notification
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(
-                    By.cssSelector(".oxd-toast-container")
-            ));
-        } catch (Exception ignored) {}
-
-    } catch (TimeoutException e) {
-        throw new RuntimeException("Save button was not found or not clickable.", e);
-    }
-}
-
-
-
-    // ---------- Getters ----------
-    public String getFirstName() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(firstNameInput))
-                .getAttribute("value");
-    }
-
-    public String getMiddleName() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(middleNameInput))
-                .getAttribute("value");
-    }
-
-    public String getLastName() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(lastNameInput))
-                .getAttribute("value");
-    }
-
-    public String getOtherID() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(otherIDInput))
-                .getAttribute("value");
-    }
-
-    public String getLicense() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(licenseInput))
-                .getAttribute("value");
-    }
-
-    public String getDateOfBirth() {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(dobInput))
-                .getAttribute("value");
-    }
-
-    public String getGender() {
-        if (wait.until(ExpectedConditions.visibilityOfElementLocated(genderMaleRadio)).isSelected())
-            return "Male";
-        if (wait.until(ExpectedConditions.visibilityOfElementLocated(genderFemaleRadio)).isSelected())
-            return "Female";
-        return "";
-    }
-    // ---------- Wait Helpers ----------
-    private void waitForOverlayToDisappear() {
-        try {
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(
-                    By.cssSelector("div.oxd-overlay")
-            ));
-        } catch (Exception ignored) {
+    // ------------------- Navigation -------------------
+    public void openMyInfoIfVisible() {
+        if (!driver.findElements(myInfoMenu).isEmpty()) {
+            clickable(myInfoMenu).click();
         }
     }
 
-    private WebElement clickable(By locator) {
-        waitForOverlayToDisappear();
-        return wait.until(ExpectedConditions.elementToBeClickable(locator));
-    }
-
-    // ---------- Navigation ----------
     public void openMyInfo() {
         clickable(myInfoMenu).click();
     }
 
-    public void openPersonalDetails() {
-        clickable(personalDetailsTab).click();
+    // ------------------- Setters -------------------
+    public InfoPage setFirstName(String v) { clearAndType(firstNameInput, v); return this; }
+    public InfoPage setMiddleName(String v) { clearAndType(middleNameInput, v); return this; }
+    public InfoPage setLastName(String v) { clearAndType(lastNameInput, v); return this; }
+    public InfoPage setOtherID(String v) { clearAndType(otherIDInput, v); return this; }
+    public InfoPage setLicense(String v) { clearAndType(licenseInput, v); return this; }
+
+    public InfoPage setDateOfBirth(String value) {
+        WebElement e = clickable(dobInput);
+        e.sendKeys(Keys.CONTROL + "a");
+        e.sendKeys(Keys.DELETE);
+        e.sendKeys(value);
+        e.sendKeys(Keys.ENTER);
+        return this;
     }
 
+    public InfoPage setGender(String gender) {
+        if (gender.equalsIgnoreCase("male")) clickable(genderMale).click();
+        else clickable(genderFemale).click();
+        return this;
+    }
+
+    public InfoPage setMaritalStatus(String status) {
+        new Select(clickable(maritalDropdown)).selectByVisibleText(status);
+        return this;
+    }
+
+    public String getFirstName() { return visible(firstNameInput).getAttribute("value"); }
+    public String getMiddleName() { return visible(middleNameInput).getAttribute("value"); }
+    public String getLastName() { return visible(lastNameInput).getAttribute("value"); }
+    public String getOtherID() { return visible(otherIDInput).getAttribute("value"); }
+    public String getLicense() { return visible(licenseInput).getAttribute("value"); }
+    public String getDateOfBirth() { return visible(dobInput).getAttribute("value"); }
+
+    public String getGender() {
+        if (driver.findElement(genderMale).isSelected()) return "Male";
+        if (driver.findElement(genderFemale).isSelected()) return "Female";
+        return "";
+    }
+
+    public String getMaritalStatus() {
+        return new Select(visible(maritalDropdown)).getFirstSelectedOption().getText();
+    }
+
+    // ------------------- Save -------------------
+    public void saveInfo() {
+        WebElement save = visible(saveBtn);
+        scrollIntoView(save);
+        clickJS(save);
+
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(toast));
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(toast));
+        } catch (Exception ignored) {}
+    }
+
+    // ------------------- Attachments -------------------
     public void openAttachments() {
         clickable(attachmentsTab).click();
-        waitForOverlayToDisappear();
     }
 
-    // ============================================================
-    //                     ATTACHMENT METHODS
-    // ============================================================
-    public void uploadAttachment(String filePath, String description) {
+    public void uploadAttachment(String path, String description) {
 
-        openAttachments();
+        scrollIntoView(clickable(addButton));
+        clickJS(driver.findElement(addButton));
 
-        clickable(addButton).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(fileInput))
-                .sendKeys(filePath);
+        driver.findElement(fileInput).sendKeys(path);
+        visible(descriptionTextarea).sendKeys(description);
 
-        driver.findElement(descriptionTextarea).sendKeys(description);
+        WebElement saveBtn = clickable(By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/div/div[2]/div[3]/div/form/div[3]/button[2]"));
+        scrollIntoView(saveBtn);
+        clickJS(saveBtn);
 
-        clickable(saveButton).click();
-
-        // Wait for popup to close
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(saveButton));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(toast));
     }
 
-    public void deleteAttachment(String fileName) {
-
-        openAttachments();
-
+    public void deleteAttachment(WebDriver driver, String fileName) {
+       // openAttachments();
         WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(getRow(fileName)));
-        row.findElement(By.xpath(".//button[contains(@class,'bi-trash')]")).click();
-
+        row.findElement(By.cssSelector("i[class=\"oxd-icon bi-trash\"]")).click();
         clickable(confirmDeleteButton).click();
-
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         wait.until(ExpectedConditions.invisibilityOf(row));
     }
 
+
     public boolean isAttachmentPresent(String fileName) {
-        openAttachments();
-        List<WebElement> rows = driver.findElements(getRow(fileName));
-        return !rows.isEmpty();
+    //    openAttachments();
+        return !driver.findElements(getRow(fileName)).isEmpty();
     }
+
+    // ------------------- Profile Picture -------------------
     public void openProfilePic() {
-        driver.findElement(profilePic).click();
+        clickJS(visible(profilePic));
     }
 
+    public void uploadPicture(String imagePath) {
+        WebElement input = wait.until(ExpectedConditions.presenceOfElementLocated(fileInput));
+        input.sendKeys(imagePath);
+    }
 
-public void uploadPicture(String imagePath) {
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-    WebElement fileInput = wait.until(
-            ExpectedConditions.presenceOfElementLocated(By.cssSelector("input[type='file']"))
-    );
-
-    fileInput.sendKeys(imagePath);  // send directly to hidden input
-}
     public void savePicture() {
-        driver.findElement(saveBtn).click();
+        clickJS(visible(savePictureButton));
     }
 }
-
-
-
