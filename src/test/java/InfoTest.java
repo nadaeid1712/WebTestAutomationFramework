@@ -43,7 +43,7 @@ public class InfoTest extends BaseTest {
     @Test(priority = 3)
     public void testDeleteAttachment() {
 
-        myInfo.deleteAttachment(driver,"test.png");
+        myInfo.deleteAttachment("ph.png");
 
         InfoAssertions.assertAttachmentNotExists(myInfo, "test.png");
     }

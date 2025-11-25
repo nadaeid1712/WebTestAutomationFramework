@@ -3,27 +3,36 @@ package Pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 import java.time.Duration;
+import java.util.List;
 
 public class InfoPage {
+
     private WebDriver driver;
     private WebDriverWait wait;
+
     public InfoPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));   // faster
     }
+
+    // ------------------- Locators -------------------
     private By myInfoMenu = By.xpath("//a[contains(@href,'viewMyDetails')]");
+
     private By firstNameInput = By.name("firstName");
     private By middleNameInput = By.name("middleName");
     private By lastNameInput = By.name("lastName");
+
     private By otherIDInput = By.xpath("//label[text()='Other Id']/../following-sibling::div/input");
     private By licenseInput = By.xpath("//label[contains(text(),'Driver')]/../following-sibling::div/input");
     private By dobInput = By.xpath("//label[text()='Date of Birth']/../following-sibling::div//input");
+
     private By genderMale = By.cssSelector("input[value='1']");
     private By genderFemale = By.cssSelector("input[value='2']");
 
     private By maritalDropdown = By.xpath("//label[text()='Marital Status']/../following-sibling::div//select");
 
     private By saveBtn = By.xpath("//button[contains(.,'Save')]");
+
     // Attachments
     private By attachmentsTab = By.xpath("//h6[text()='Attachments']");
     private By addButton = By.cssSelector("button.oxd-button--text");
@@ -31,7 +40,7 @@ public class InfoPage {
     private By descriptionTextarea = By.tagName("textarea");
     private By toast = By.cssSelector(".oxd-toast");
 
-    private By confirmDeleteButton = By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--label-danger orangehrm-button-margin\"]");
+    private By confirmDeleteButton = By.xpath("//button[contains(., 'Yes, Delete')]");
 
     private By getRow(String fileName) {
         return By.xpath("//div[@class='oxd-table-card'][.//div[contains(text(),'" + fileName + "')]]");
@@ -44,6 +53,7 @@ public class InfoPage {
     private By savePictureButton = By.xpath("//button[contains(., 'Save')]");
 
 
+    // ------------------- Utility -------------------
     private WebElement visible(By loc) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(loc));
     }
@@ -107,6 +117,7 @@ public class InfoPage {
         return this;
     }
 
+    // ------------------- Getters -------------------
     public String getFirstName() { return visible(firstNameInput).getAttribute("value"); }
     public String getMiddleName() { return visible(middleNameInput).getAttribute("value"); }
     public String getLastName() { return visible(lastNameInput).getAttribute("value"); }
@@ -130,6 +141,7 @@ public class InfoPage {
         scrollIntoView(save);
         clickJS(save);
 
+        // Wait for toast to confirm save
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(toast));
             wait.until(ExpectedConditions.invisibilityOfElementLocated(toast));
@@ -142,6 +154,7 @@ public class InfoPage {
     }
 
     public void uploadAttachment(String path, String description) {
+        //openAttachments();
 
         scrollIntoView(clickable(addButton));
         clickJS(driver.findElement(addButton));
@@ -156,18 +169,22 @@ public class InfoPage {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(toast));
     }
 
-    public void deleteAttachment(WebDriver driver, String fileName) {
-       // openAttachments();
-        WebElement row = wait.until(ExpectedConditions.visibilityOfElementLocated(getRow(fileName)));
-        row.findElement(By.cssSelector("i[class=\"oxd-icon bi-trash\"]")).click();
-        clickable(confirmDeleteButton).click();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    public void deleteAttachment(String fileName) {
+        openAttachments();
+
+        WebElement row = visible(getRow(fileName));
+        WebElement trash = row.findElement(By.cssSelector("i.bi-trash"));
+
+        scrollIntoView(trash);
+        clickJS(trash);
+
+        clickJS(clickable(confirmDeleteButton));
+
         wait.until(ExpectedConditions.invisibilityOf(row));
     }
 
-
     public boolean isAttachmentPresent(String fileName) {
-    //    openAttachments();
+        openAttachments();
         return !driver.findElements(getRow(fileName)).isEmpty();
     }
 
