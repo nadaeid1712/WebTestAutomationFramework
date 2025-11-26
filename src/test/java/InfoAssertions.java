@@ -15,7 +15,7 @@ public class InfoAssertions {
             String license,
             String dob
            ) {
-        Assert.assertEquals(page.getFirstName(), FirstName, "First Name not updated");
+        Assert.assertEquals(page.getFirstName(), FirstName, "First name not updated");
 
         Assert.assertEquals(page.getMiddleName(), middleName, "Middle name not updated");
         Assert.assertEquals(page.getLastName(), lastName, "Last name not updated");
