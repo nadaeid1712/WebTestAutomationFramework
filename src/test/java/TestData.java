@@ -32,10 +32,18 @@ public class TestData {
         };
     }
     @DataProvider
+    public Object[][] getEmployeeBdAccount(){
+        return new Object[][]{
+                {"Adel","Ibrahim","Talat","adell","adel123","adel123"}
+        };
+    }
+    @DataProvider
     public Object[][] personalInfo(){
         return new Object[][]{
                 {"ohood","a","s","55","gg444","2025-05-10"}
         };
     }
+
+
 
 }

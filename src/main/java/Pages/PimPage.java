@@ -20,9 +20,8 @@ public class PimPage {
     By createLoginDetailsLocator=By.cssSelector("span[class=\"oxd-switch-input oxd-switch-input--active --label-right\"]");
     By saveButtonLocater=By.cssSelector("button[type=\"submit\"]");
     By cancelButtonLocator=By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--ghost\"]");
-    By employeeUsernameLocator=By.cssSelector("input[class=\"oxd-input oxd-input--active\"]");
-//    By employeePasswordLocator=
-//    By employeeConPasswordLocator=
+    By employeeUsernameLocator=By.cssSelector("input[autocomplete=\"off\"]");
+    By addEmployeePhotoLocator=By.cssSelector("i[class=\"oxd-icon bi-plus\"]");
     By peterAndersonButton=By.cssSelector("span[class=\"oxd-userdropdown-tab\"]");
     By logoutButtonLocator=By.cssSelector("a[href=\"/web/index.php/auth/logout\"]");
     //Employee list
@@ -51,6 +50,7 @@ public class PimPage {
     }
     public void completeBasicEmployee(String firstName,String middleName,String lastName ,String employeeAccount,String employeePassword,String confirmPw){
         pimDriver.findElement(addEmployeeLocator).click();
+        pimDriver.findElement(addEmployeePhotoLocator).sendKeys();
         pimDriver.findElement(firstNameLocator).sendKeys(firstName);
         pimDriver.findElement(middleNameLocator).sendKeys(middleName);
         pimDriver.findElement(lastNameLocator).sendKeys(lastName);

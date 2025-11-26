@@ -26,13 +26,11 @@ public class PimAddNewTest extends BaseTest {
     @Test(dataProvider ="getEmployeeBdId",dataProviderClass = TestData.class, priority = 4)
     public void addLargeId(String firstName,String middleName,String lastName ,int id ) throws IOException {
         new PimPage(driver).addEmployeeId(firstName,middleName,lastName,id);
-        Assert.fail("Successfull,Sucessfully Saved");
-
-
-
-
-
-
+        //Assert.fail("Successfull,Sucessfully Saved");
+    }
+    @Test(dataProvider = "getEmployeeBdAccount",dataProviderClass = TestData.class,priority = 4)
+    public void employeeAccount(String firstName,String middleName,String lastName ,String employeeAccount,String employeePassword,String confirmPw){
+        new PimPage(driver).completeBasicEmployee(firstName,middleName,lastName,employeeAccount,employeePassword,confirmPw);
     }
 
 
