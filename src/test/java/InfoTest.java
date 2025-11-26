@@ -10,25 +10,25 @@ public class InfoTest extends BaseTest {
         myInfo = new InfoPage(driver);
     }
 
-    @Test(dataProvider ="personalInfo", dataProviderClass = TestData.class, priority = 1)
-    public void updatePersonalInfoTest(String middleName, String lastName, String otherId,
-                                       String license, String dob, String gender, String maritalStatus) {
+    @Test( priority = 1, dataProvider ="personalInfo", dataProviderClass = TestData.class)
+    public void updatePersonalInfoTest(String FirstName,String middleName, String lastName, String otherId,
+                                       String license, String dob) {
 
-        myInfo.openMyInfoIfVisible();
+        myInfo.openMyInfo();
 
         myInfo
+                .setFirstName(FirstName)
                 .setMiddleName(middleName)
                 .setLastName(lastName)
                 .setOtherID(otherId)
                 .setLicense(license)
-                .setDateOfBirth(dob)
-                .setGender(gender)
-                .setMaritalStatus(maritalStatus);
+                .setDateOfBirth(dob);
+
 
         myInfo.saveInfo();
 
-        InfoAssertions.assertPersonalInfo(myInfo, middleName, lastName,
-                otherId, license, dob, gender, maritalStatus);
+        InfoAssertions.assertPersonalInfo(myInfo, FirstName,middleName, lastName,
+                otherId, license, dob);
     }
 
     @Test(priority = 2)
@@ -45,12 +45,11 @@ public class InfoTest extends BaseTest {
 
         myInfo.deleteAttachment("ph.png");
 
-        InfoAssertions.assertAttachmentNotExists(myInfo, "test.png");
+        InfoAssertions.assertAttachmentNotExists(myInfo, "ph.png");
     }
 
     @Test(priority = 4)
     public void testChangeProfilePicture() {
-        myInfo.openMyInfo();
         myInfo.openProfilePic();
         myInfo.uploadPicture("C:\\Users\\Ohood\\IdeaProjects\\WebTestAutomationFramework3\\failedScreenshots\\ph.png");
         myInfo.savePicture();
