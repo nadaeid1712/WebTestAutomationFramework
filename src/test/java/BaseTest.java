@@ -33,11 +33,11 @@ public class BaseTest {
 
     }
 
-//    @AfterClass
-//    public void quit() {
-//        driver.quit();
-//
-//    }
+    @AfterClass
+    public void quit() {
+        driver.quit();
+
+    }
 
     @AfterMethod
     public void takeScreenShotOnFailure(ITestResult testResult) throws IOException {
