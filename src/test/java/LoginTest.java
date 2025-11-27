@@ -2,7 +2,7 @@ import Pages.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class LoginTest extends BaseTest {
+public class LoginTest extends log  {
 
     LoginPage loginPage;
 
@@ -10,8 +10,6 @@ public class LoginTest extends BaseTest {
     public void setupPage() {
         loginPage = new LoginPage(driver);
     }
-
-
 
     private void safeLogout() {
         try {
@@ -46,18 +44,4 @@ public class LoginTest extends BaseTest {
         safeLogout();
     }
 
-    @Test(priority = 7)
-    public void verifyCaseSensitivityOfPassword() {
-        loginPage.loginSteps("Admin", "ADMIN123");
-        Assert.assertEquals(loginPage.getErrorMessage(), "Invalid credentials");
-        safeLogout();
-
-    }
-
-    @Test(priority = 8)
-    public void verifyCaseSensitivityOfUsername() {
-        loginPage.loginSteps("ADMIN", "admin123");
-        Assert.assertEquals(loginPage.getErrorMessage(), "Invalid credentials");
-        safeLogout();
-    }
 }

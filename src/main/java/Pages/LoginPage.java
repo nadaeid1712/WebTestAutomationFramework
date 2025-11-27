@@ -59,9 +59,6 @@ public class LoginPage {
         return driver.findElements(requiredFieldLocator).size();
     }
 
-    public void clickForgotPassword() {
-        driver.findElement(forgotPasswordLocator).click();
-    }
 
     public void logout() {
         try {
