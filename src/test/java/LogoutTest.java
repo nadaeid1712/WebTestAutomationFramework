@@ -14,10 +14,10 @@ public class LogoutTest extends BaseTest {
         loginPage = new LoginPage(driver);
         logoutPage = new LogoutPage(driver);
 
-        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.manage().deleteAllCookies();
+        driver.get(url);
 
         loginPage.loginSteps("Admin", "admin123");
-
         Assert.assertTrue(loginPage.isLoginSuccessful(),
                 "Login should be successful before testing logout");
     }
@@ -31,7 +31,6 @@ public class LogoutTest extends BaseTest {
     @Test(priority = 2)
     public void verifyLogoutFunctionality() {
         logoutPage.logout();
-
         Assert.assertTrue(logoutPage.isLogoutSuccessful(),
                 "User should be redirected to login page after logout.");
     }

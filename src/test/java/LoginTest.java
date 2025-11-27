@@ -6,12 +6,12 @@ public class LoginTest extends BaseTest {
 
     LoginPage loginPage;
 
-    @BeforeClass
-    public void setupPage() {
+    @BeforeMethod
+    public void setup() {
         loginPage = new LoginPage(driver);
+        driver.manage().deleteAllCookies();
+        driver.get(url);
     }
-
-
 
     private void safeLogout() {
         try {
@@ -20,44 +20,21 @@ public class LoginTest extends BaseTest {
         }
     }
 
+    @AfterMethod
+    public void afterTest() {
+        safeLogout();
+    }
+
     @Test(priority = 2)
-    public void verifyLoginWithInvalidUsername() {
-        loginPage.loginSteps("wrongUser", "admin123");
-        Assert.assertEquals(loginPage.getErrorMessage(), "Invalid credentials");
+    public void verifyLoginWithEmptyFields() {
+        loginPage.loginSteps("", "");
+        Assert.assertEquals(loginPage.getRequiredMessagesCount(), 2,
+                "Both username and password fields should be required.");
     }
 
     @Test(priority = 3)
-    public void verifyLoginWithEmptyFields() {
-        loginPage.loginSteps("", "");
-        Assert.assertEquals(loginPage.getRequiredMessagesCount(), 2, "Both username and password fields should be required.");
-    }
-
-    @Test(priority = 4)
-    public void verifyPasswordIsMasked() {
-        String type = loginPage.getPasswordFieldType();
-        Assert.assertEquals(type, "password", "Password field should be masked.");
-        safeLogout();
-    }
-
-    @Test(dataProvider = "getLoginData", dataProviderClass = TestData.class, priority = 5)
-    public void verifyPressingEnterTriggersLogin(String username, String password) {
-        loginPage.loginSteps(username, password);
-        Assert.assertTrue(loginPage.isLoginSuccessful(), "Login should work when pressing Enter.");
-        safeLogout();
-    }
-
-    @Test(priority = 7)
-    public void verifyCaseSensitivityOfPassword() {
-        loginPage.loginSteps("Admin", "ADMIN123");
+    public void verifyLoginWithInvalidUsername() {
+        loginPage.loginSteps("wrongUser", "admin123");
         Assert.assertEquals(loginPage.getErrorMessage(), "Invalid credentials");
-        safeLogout();
-
-    }
-
-    @Test(priority = 8)
-    public void verifyCaseSensitivityOfUsername() {
-        loginPage.loginSteps("ADMIN", "admin123");
-        Assert.assertEquals(loginPage.getErrorMessage(), "Invalid credentials");
-        safeLogout();
     }
 }

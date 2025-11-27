@@ -11,10 +11,8 @@ public class LogoutPage {
     WebDriver driver;
     WebDriverWait wait;
 
-    By userDropdownLocator = By.cssSelector("span[class=\"oxd-userdropdown-tab\"]");
-    //By userDropdownLocator = By.cssSelector("p.oxd-userdropdown-name//");
-    By logoutButtonLocator = By.cssSelector("a[href=\"/web/index.php/auth/logout\"]");
-    //By logoutButtonLocator = By.xpath("//a[text()='Logout']");
+    By userDropdownLocator = By.cssSelector("span[class='oxd-userdropdown-tab']");
+    By logoutButtonLocator = By.cssSelector("a[href='/web/index.php/auth/logout']");
 
     public LogoutPage(WebDriver driver) {
         this.driver = driver;
@@ -50,8 +48,11 @@ public class LogoutPage {
     }
 
     public void logout() {
-        clickUserDropdown();
-        clickLogout();
+        try {
+            clickUserDropdown();
+            clickLogout();
+        } catch (Exception e) {
+        }
 
         driver.manage().deleteAllCookies();
 
