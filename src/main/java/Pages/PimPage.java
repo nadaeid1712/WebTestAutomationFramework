@@ -16,7 +16,7 @@ public class PimPage {
     By firstNameLocator=By.name("firstName");
     By middleNameLocator=By.name("middleName");
     By lastNameLocator=By.name("lastName");
-    By employeeIdLocator=By.xpath("/html/body/div/div[1]/div[2]/div[2]/div/div/form/div[1]/div[2]/div[1]/div[2]/div/div/div[2]/input");
+    By employeeIdLocator=By.cssSelector("input[class=\"oxd-input oxd-input--active\"]");
     By createLoginDetailsLocator=By.cssSelector("span[class=\"oxd-switch-input oxd-switch-input--active --label-right\"]");
     By saveButtonLocater=By.cssSelector("button[type=\"submit\"]");
     By cancelButtonLocator=By.cssSelector("button[class=\"oxd-button oxd-button--medium oxd-button--ghost\"]");
@@ -45,12 +45,12 @@ public class PimPage {
         pimDriver.findElement(firstNameLocator).sendKeys(firstName);
         pimDriver.findElement(middleNameLocator).sendKeys(middleName);
         pimDriver.findElement(lastNameLocator).sendKeys(lastName);
-        pimDriver.findElement(employeeIdLocator).sendKeys(String.valueOf(id));
+        pimDriver.findElements(employeeIdLocator).get(1).sendKeys(String.valueOf(id));
         pimDriver.findElement(saveButtonLocater).click();
     }
     public void completeBasicEmployee(String firstName,String middleName,String lastName ,String employeeAccount,String employeePassword,String confirmPw){
         pimDriver.findElement(addEmployeeLocator).click();
-//        pimDriver.findElement(addEmployeePhotoLocator).sendKeys();
+        //pimDriver.findElement(addEmployeePhotoLocator).click();
         pimDriver.findElement(firstNameLocator).sendKeys(firstName);
         pimDriver.findElement(middleNameLocator).sendKeys(middleName);
         pimDriver.findElement(lastNameLocator).sendKeys(lastName);

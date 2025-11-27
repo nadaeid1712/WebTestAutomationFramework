@@ -33,7 +33,7 @@ public class InfoTest extends BaseTest {
 
     @Test(priority = 2)
     public void testUploadAttachment() {
-        String filePath = "C:\\Users\\Ohood\\IdeaProjects\\WebTestAutomationFramework3\\failedScreenshots\\ph.png";
+        String filePath = "C:\\Users\\DELL\\IdeaProjects\\WebTestAutomationFramework\\failedScreenshots\\ph.png";
 
         myInfo.uploadAttachment(filePath, "Test Upload File");
 
@@ -51,7 +51,7 @@ public class InfoTest extends BaseTest {
     @Test(priority = 4)
     public void testChangeProfilePicture() {
         myInfo.openProfilePic();
-        myInfo.uploadPicture("C:\\Users\\Ohood\\IdeaProjects\\WebTestAutomationFramework3\\failedScreenshots\\ph.png");
+        myInfo.uploadPicture("C:\\Users\\DELL\\IdeaProjects\\WebTestAutomationFramework\\failedScreenshots\\ph.png");
         myInfo.savePicture();
         System.out.println("✔ Profile picture updated successfully!");
     }
