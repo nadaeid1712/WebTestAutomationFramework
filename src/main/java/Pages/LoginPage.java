@@ -1,70 +1,94 @@
 package Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 public class LoginPage {
+
     WebDriver driver;
     WebDriverWait wait;
 
-    // Locators
-    By userNameLocator = By.name("username");
-    By passWordLocator = By.name("password");
-    By loginButtonLocator = By.cssSelector("button[type='submit']");
-    By errorMsgLocator = By.cssSelector("p.oxd-alert-content-text");
-    By dashboardLocator = By.cssSelector("h6.oxd-text.oxd-text--h6.oxd-topbar-header-breadcrumb-module");
-    By forgotPasswordLocator = By.xpath("//p[text()='Forgot your password?']");
-    By requiredFieldLocator = By.xpath("//*[text()='Required']");
-    By userDropdownLocator = By.cssSelector("p.oxd-userdropdown-name"); // dropdown للـ logout
-    By logoutButtonLocator = By.xpath("//a[text()='Logout']");
+    private final By usernameField = By.name("username");
+    private final By passwordField = By.name("password");
+    private final By loginButton = By.cssSelector("button[type='submit']");
+    private final By dashboardHeader = By.cssSelector("h6.oxd-text.oxd-text--h6");
+    private final By errorMessages = By.cssSelector("p.oxd-text.oxd-text--p.oxd-alert-content-text"); // رسالة خطأ
+    private final By requiredFieldMessages = By.cssSelector("span.oxd-input-field-error-message"); // رسائل required
 
-    // Constructor
     public LoginPage(WebDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-    // Actions
+    public void waitForPageLoad() {
+        wait.until(webDriver -> ((JavascriptExecutor) webDriver)
+                .executeScript("return document.readyState").equals("complete"));
+    }
+
     public void loginSteps(String username, String password) {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(userNameLocator)).clear();
-        driver.findElement(userNameLocator).sendKeys(username);
-        driver.findElement(passWordLocator).clear();
-        driver.findElement(passWordLocator).sendKeys(password);
-        driver.findElement(loginButtonLocator).click();
-    }
+        waitForPageLoad();
 
-    public String getErrorMessage() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(errorMsgLocator));
-        return driver.findElement(errorMsgLocator).getText();
+        WebElement userInput = wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
+        WebElement passInput = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField));
+        WebElement loginBtn = wait.until(ExpectedConditions.elementToBeClickable(loginButton));
+
+        userInput.clear();
+        userInput.sendKeys(username);
+
+        passInput.clear();
+        passInput.sendKeys(password);
+
+        loginBtn.click();
     }
 
     public boolean isLoginSuccessful() {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardLocator));
-            return driver.findElement(dashboardLocator).isDisplayed();
-        } catch (Exception e) {
+            waitForPageLoad();
+            wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardHeader));
+            return true;
+        } catch (TimeoutException e) {
             return false;
         }
     }
 
-    public String getPasswordFieldType() {
-        return driver.findElement(passWordLocator).getAttribute("type");
+    public String getErrorMessage() {
+        try {
+            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessages));
+            return error.getText().trim();
+        } catch (TimeoutException e) {
+            return "";
+        }
     }
 
     public int getRequiredMessagesCount() {
-        return driver.findElements(requiredFieldLocator).size();
+        try {
+            List<WebElement> messages = driver.findElements(requiredFieldMessages);
+            return messages.size();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
+    public String getPasswordFieldType() {
+        try {
+            WebElement passInput = driver.findElement(passwordField);
+            return passInput.getAttribute("type");
+        } catch (NoSuchElementException e) {
+            return "";
+        }
+    }
 
+    // Optional: إذا عايزة logout مباشرة من login page
     public void logout() {
         try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(userDropdownLocator)).click();
-            wait.until(ExpectedConditions.visibilityOfElementLocated(logoutButtonLocator)).click();
+            driver.findElement(By.cssSelector("span.oxd-userdropdown-tab")).click();
+            driver.findElement(By.cssSelector("a[href='/web/index.php/auth/logout']")).click();
         } catch (Exception e) {
+            // لو مش موجود، تجاهل
         }
     }
 }
