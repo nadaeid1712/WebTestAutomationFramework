@@ -52,10 +52,9 @@ public class LogoutPage {
             clickUserDropdown();
             clickLogout();
         } catch (Exception e) {
-            // لو dropdown أو logout مش موجود، تجاهل
         }
 
-        driver.manage().deleteAllCookies(); // مسح أي session
+        driver.manage().deleteAllCookies();
 
         try {
             wait.until(ExpectedConditions.urlContains("/auth/login"));

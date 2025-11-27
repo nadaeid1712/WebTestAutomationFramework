@@ -82,13 +82,11 @@ public class LoginPage {
         }
     }
 
-    // Optional: إذا عايزة logout مباشرة من login page
     public void logout() {
         try {
             driver.findElement(By.cssSelector("span.oxd-userdropdown-tab")).click();
             driver.findElement(By.cssSelector("a[href='/web/index.php/auth/logout']")).click();
         } catch (Exception e) {
-            // لو مش موجود، تجاهل
         }
     }
 }

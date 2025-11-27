@@ -14,10 +14,9 @@ public class LogoutTest extends BaseTest {
         loginPage = new LoginPage(driver);
         logoutPage = new LogoutPage(driver);
 
-        driver.manage().deleteAllCookies(); // تنظيف session
+        driver.manage().deleteAllCookies();
         driver.get(url);
 
-        // login قبل كل اختبار
         loginPage.loginSteps("Admin", "admin123");
         Assert.assertTrue(loginPage.isLoginSuccessful(),
                 "Login should be successful before testing logout");
