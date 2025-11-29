@@ -1,0 +1,1 @@
+{"uuid":"7837b702-3036-4eff-bf17-7f50ad5c5a50","name":"WebTestAutomationFramework2","children":["44a9ef2d-4db5-4efb-ba29-243970b2af7f"],"befores":[{"name":"navigate","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1763354180952,"stop":1763354183653}],"afters":[],"start":1763354180861,"stop":1763354224092}

@@ -1,1 +1,0 @@
-{"uuid":"35e1b134-444a-4cbb-8120-bbc607445e2a","name":"InfoTest.setUpPage","children":["65f65169-4597-458f-a46f-d45a9b31fc70"],"description":"","befores":[{"name":"setUpPage","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1764003305374,"stop":1764003305387}],"afters":[],"start":1764003305374,"stop":1764003305387}
