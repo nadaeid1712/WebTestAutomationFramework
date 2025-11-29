@@ -8,7 +8,7 @@ import java.time.Duration;
 public class LeaveApplyTest  extends BaseTest{
 
     @Test(priority = 2)
-    public void checkLeaveButton(){
+    public void checkLeaveButton (){
         Allure.step("Check Leave Button");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         new LeaveApplyPage(driver).verifyLeaveButton();

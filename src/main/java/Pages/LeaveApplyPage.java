@@ -3,11 +3,9 @@ package Pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LeaveApplyPage {
-
+    public class LeaveApplyPage {
 
     WebDriver applyPageDriver;
-
 
    // By leaveButtonLocator = By.cssSelector("href=\"/web/index.php/leave/viewLeaveModule\"");
     By leaveButtonLocator = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[3]/a");
