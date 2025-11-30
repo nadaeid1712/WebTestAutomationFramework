@@ -1,10 +1,10 @@
 package Pages;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.devtools.v129.page.Page;
 import java.util.List;
 
 public class AssignLeavePage extends Page {
+
     // Driver
     WebDriver assignLeavePageDriver;
 
@@ -18,12 +18,11 @@ public class AssignLeavePage extends Page {
     By leaveTypeSelectButton = By.cssSelector("div[class=\"oxd-select-text oxd-select-text--active\"]");
     By personalTypeLocator = By.xpath("//div[text()=\"CAN - Personal\"] ");
 
-   // By fromDateButton = By.cssSelector("//label[text()='From Date']");
+    // By fromDateButton = By.cssSelector("//label[text()='From Date']");
     //By toDateButton = By.cssSelector(" //label[text()='From Date']");
     By commentLocator = By.cssSelector("textarea[class=\"oxd-textarea oxd-textarea--active oxd-textarea--resize-vertical\"]");
     By saveAssignLeaveLocator = By.cssSelector("button[type=\"submit\"]");
     By dateButton=By.cssSelector("input[placeholder=\"yyyy-dd-mm\"]");
-    private Object createLeave;
 
     // List<WebElement> date=assignLeavePageDriver.findElements(dateButton);
 

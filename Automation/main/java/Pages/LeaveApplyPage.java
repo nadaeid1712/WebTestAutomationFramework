@@ -22,19 +22,19 @@ import org.openqa.selenium.WebDriver;
     }
 
     public void verifyLeaveButton() {
-        applyPageDriver.findElement(leaveButtonLocator).click();
 
+        applyPageDriver.findElement(leaveButtonLocator).click();
     }
     public void openApplyPage () {
         applyPageDriver.findElement(leaveButtonLocator).click();
         applyPageDriver.findElement(applyButtonLocator).click();
     }
-    public void fillMandatoryField(){
+    public void fillMandatoryFields (){
         applyPageDriver.findElement(leaveButtonLocator).click();
         applyPageDriver.findElement(applyButtonLocator).click();
         applyPageDriver.findElement(leaveTypeSelectButton).click();
         applyPageDriver.findElement(personalTypeLocator).click();
-        applyPageDriver.findElement(commentLocator).sendKeys("Nada");
+        applyPageDriver.findElement(commentLocator).sendKeys("Done");
         applyPageDriver.findElement(saveApplyLocator).click();
     }
 
