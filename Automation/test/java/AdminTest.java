@@ -5,11 +5,11 @@ import org.testng.annotations.Test;
 
 public class AdminTest extends BaseTest {
 
-    AdminPage adminPage;
+    Pages.AdminPage adminPage;
 
     @Test(priority = 2, description = "Add a new user")
     public void testAddUser() {
-        adminPage = new AdminPage(driver);  //connect page with driver
+        adminPage = new Pages.AdminPage(driver);  //connect page with driver
         adminPage.navigateToUsersPage();    // Navigate to user page
         adminPage.clickAddUser();           // Click  Add
     // Data that i can enter to add

@@ -1,18 +1,14 @@
 package Pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.devtools.v129.page.Page;
-
 import java.util.List;
 
 public class AssignLeavePage extends Page {
-
+    // Driver
     WebDriver assignLeavePageDriver;
 
-
+    //locators
 
     By leaveButtonLocator = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[3]/a");
     By assignLeaveButton = By.xpath(" //a[text()='Assign Leave']");
@@ -27,26 +23,29 @@ public class AssignLeavePage extends Page {
     By commentLocator = By.cssSelector("textarea[class=\"oxd-textarea oxd-textarea--active oxd-textarea--resize-vertical\"]");
     By saveAssignLeaveLocator = By.cssSelector("button[type=\"submit\"]");
     By dateButton=By.cssSelector("input[placeholder=\"yyyy-dd-mm\"]");
+    private Object createLeave;
 
-   // List<WebElement> date=assignLeavePageDriver.findElements(dateButton);
+    // List<WebElement> date=assignLeavePageDriver.findElements(dateButton);
 
-
+    // Constructor
     public AssignLeavePage(WebDriver driver) {assignLeavePageDriver= driver;}
 
-
+    // Methods
     public void checkAssignLeavePage() {
 
         assignLeavePageDriver.findElement(leaveButtonLocator).click();
         assignLeavePageDriver.findElement(assignLeaveButton).click();
+
+    }
+
+
+    public void createLeave() {
+        assignLeavePageDriver.findElement(leaveButtonLocator).click();
+        assignLeavePageDriver.findElement(assignLeaveButton).click();
         //assignLeavePageDriver.findElement(employeeNameButton).click();
-        assignLeavePageDriver.findElement(employeeNameButton).sendKeys("Ayman Weal Ali");
+        assignLeavePageDriver.findElement(employeeNameButton).sendKeys("Ayman Wael Ali");
        // assignLeavePageDriver.findElement(leaveTypeSelect).click();
 
-        //assignLeavePageDriver.findElement(leaveTypeSelectButton).click();
-        //assignLeavePageDriver.findElement(leaveTypeSelectButton).click();
-       // assignLeavePageDriver.findElement(leaveTypeSelectButton).click();
-       // assignLeavePageDriver.findElement(personalTypeLocator).click();
-       // assignLeavePageDriver.findElement(fromDateButton).click();
         //to date
         assignLeavePageDriver.findElements(dateButton).get(1).sendKeys("2025-11-12");
         //from date
@@ -58,4 +57,4 @@ public class AssignLeavePage extends Page {
     }
 
 
-}
+    }
