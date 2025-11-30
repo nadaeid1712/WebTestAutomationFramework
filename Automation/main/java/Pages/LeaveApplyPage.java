@@ -5,7 +5,10 @@ import org.openqa.selenium.WebDriver;
 
     public class LeaveApplyPage {
 
+        // Driver
     WebDriver applyPageDriver;
+
+    // Locators
 
    // By leaveButtonLocator = By.cssSelector("href=\"/web/index.php/leave/viewLeaveModule\"");
     By leaveButtonLocator = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[3]/a");
@@ -17,18 +20,22 @@ import org.openqa.selenium.WebDriver;
     By saveApplyLocator = By.cssSelector("button[type=\"submit\"]");
 
 
+    // Constructor
     public LeaveApplyPage(WebDriver driver) {
         applyPageDriver = driver;
     }
 
+    //Methods
     public void verifyLeaveButton() {
 
         applyPageDriver.findElement(leaveButtonLocator).click();
     }
+
     public void openApplyPage () {
         applyPageDriver.findElement(leaveButtonLocator).click();
         applyPageDriver.findElement(applyButtonLocator).click();
     }
+
     public void fillMandatoryFields (){
         applyPageDriver.findElement(leaveButtonLocator).click();
         applyPageDriver.findElement(applyButtonLocator).click();
