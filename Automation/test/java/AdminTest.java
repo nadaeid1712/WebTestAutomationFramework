@@ -1,4 +1,5 @@
 
+import Pages.AdminPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

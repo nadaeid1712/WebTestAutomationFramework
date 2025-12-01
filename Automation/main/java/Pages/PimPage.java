@@ -50,7 +50,7 @@ public class PimPage {
     }
     public void completeBasicEmployee(String firstName,String middleName,String lastName ,String employeeAccount,String employeePassword,String confirmPw){
         pimDriver.findElement(addEmployeeLocator).click();
-        //pimDriver.findElement(addEmployeePhotoLocator).click();
+       // pimDriver.findElement(addEmployeePhotoLocator).sendKeys("F:\\WebTestAutomationFramework5\\Automation\\failedScreenshots\\addLargeId-[Shady, Saad, Ali, 895742].jpg");
         pimDriver.findElement(firstNameLocator).sendKeys(firstName);
         pimDriver.findElement(middleNameLocator).sendKeys(middleName);
         pimDriver.findElement(lastNameLocator).sendKeys(lastName);
@@ -59,9 +59,6 @@ public class PimPage {
         pimDriver.findElements(employeeUsernameLocator).get(1).sendKeys(employeePassword);
         pimDriver.findElements(employeeUsernameLocator).get(2).sendKeys(confirmPw);
         pimDriver.findElement(saveButtonLocater).click();
-
-
-
 
     }
 
