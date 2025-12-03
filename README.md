@@ -30,9 +30,15 @@ Bug Tracking
 * ​Web Automation Tool: Selenium
 * ​Build Automation Tool: Maven
 * ​Testing Framework: TestNG
-* Coverage Calculation: The current automation coverage is 17.39% based on 20 automated scripts out of 115 total manual test cases.
-* Execution Results: The execution achieved a 75% pass rate (15 out of 20 scripts passed).
-* Focus on Critical Paths: The 20 automated test scripts are specifically designed to cover the most critical paths across all in-scope modules to ensure application stability (as detailed below).
-* Failed Scripts: The 5 failed scripts (25% failure rate) are directly related to crucial core system functionality checks, indicating a high risk to the application's foundational processes.
-* Reporting: Allure Report was successfully integrated to generate dynamic and detailed test run reports, providing clear traceability and defect investigation through attachments and step-by-step logging.
-* Recommendation: Prioritize fixing the defects related to the 5 failed scripts, as they indicate issues in the core functionalities covered by automation
+## Coverage Calculation:
+The current automation coverage is 17.39% based on 20 automated scripts out of 115 total manual test cases.
+## Execution Results: 
+The execution achieved a 75% pass rate (15 out of 20 scripts passed).
+## Focus on Critical Paths: 
+The 20 automated test scripts are specifically designed to cover the most critical paths across all in-scope modules to ensure application stability (as detailed below).
+## Failed Scripts:
+The 5 failed scripts (25% failure rate) are directly related to crucial core system functionality checks, indicating a high risk to the application's foundational processes.
+## Reporting:
+Allure Report was successfully integrated to generate dynamic and detailed test run reports, providing clear traceability and defect investigation through attachments and step-by-step logging.
+## Recommendation:
+Prioritize fixing the defects related to the 5 failed scripts, as they indicate issues in the core functionalities covered by automation
