@@ -10,7 +10,8 @@ public class AssignLeaveTest extends BaseTest {
 Allure.step("Assign Leave Page");
 new AssignLeavePage(driver).checkAssignLeavePage();
 // Assertion //
-        verifySuccessMessage();
+verifySuccessMessage();
+Allure.step("Navigate to Assign Leave Page");
     }
     @Test(priority = 3)
     public void createLeave() {
@@ -18,7 +19,9 @@ new AssignLeavePage(driver).checkAssignLeavePage();
         new AssignLeavePage(driver).createLeave();
 
         // Assertion //
-      verifySuccessMessage();
+        verifySuccessMessage();
+        Allure.step("Navigate to Create Leave Page");
+
 
 
 
