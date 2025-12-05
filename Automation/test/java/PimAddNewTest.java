@@ -39,7 +39,7 @@ public class PimAddNewTest extends BaseTest {
 
     @Test(dataProvider = "getFullFields",dataProviderClass = TestData.class,priority = 6)
     public void empolyeefullList(String firstName,String middleName,String lastName, String imagePath,String employeeAccount,String employeePassword,String confirmPw
-            ,String driverLicence,String LicenceExpiryDate,int nationalityNum,int maritalNum, String dateOfBirth,int bloodNum,String testField ){
+            ,int driverLicence,String LicenceExpiryDate,int nationalityNum,int maritalNum, String dateOfBirth,int bloodNum,String testField ){
         Allure.step("Fill full data");
         new PimPage(driver).allFieldCompletion(firstName,middleName,lastName, imagePath,employeeAccount,employeePassword,confirmPw
                 ,driverLicence,LicenceExpiryDate,nationalityNum ,maritalNum,dateOfBirth,bloodNum, testField );

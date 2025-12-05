@@ -42,7 +42,7 @@ public class TestData {
         return new Object[][]{
 
                 {"Ahmed","Nagy","Shady","F:\\WebTestAutomationFramework5\\Automation\\image\\employee image 1.png","dadyyyy","shady123",
-                        "shady123","985637","2025-12-11",55,2,"1990-25-2",1,"AFC" }
+                        "shady123",985637,"2025-12-11",55,2,"1990-25-2",1,"AFC" }
         };
     }
     @DataProvider

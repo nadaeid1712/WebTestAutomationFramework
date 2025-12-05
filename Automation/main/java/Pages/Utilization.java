@@ -11,7 +11,7 @@ import java.time.Duration;
 
 public class Utilization {
     WebDriver driver;
-    By successMessageLocators=By.cssSelector("div[aria-live=\"assertive\"]");
+
 
 
     public void waitForElementToBeClickable(By locator){
