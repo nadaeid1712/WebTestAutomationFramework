@@ -9,12 +9,16 @@ public class AssignLeaveTest extends BaseTest {
     public void navigateToAssignLeavePage() {
 Allure.step("Assign Leave Page");
 new AssignLeavePage(driver).checkAssignLeavePage();
+// Assertion //
 
     }
     @Test(priority = 2)
     public void createLeave() {
         Allure.step("Create Leave");
         new AssignLeavePage(driver).createLeave();
+
+        // Assertion //
+
 
 
 

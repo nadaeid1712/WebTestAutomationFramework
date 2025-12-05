@@ -13,6 +13,7 @@ public class LeaveApplyTest  extends BaseTest{
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         new LeaveApplyPage(driver).verifyLeaveButton();
 
+
     }
 
     @Test(priority = 3)

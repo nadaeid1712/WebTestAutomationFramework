@@ -10,10 +10,12 @@ public class AssignLeavePage extends Page {
 
     //locators
 
-    By leaveButtonLocator = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[3]/a");
+    //By leaveButtonLocator = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[3]/a");
+    By leaveButtonLocator=By.cssSelector("a[href=\"/web/index.php/leave/viewLeaveModule\"]");
     By assignLeaveButton = By.xpath(" //a[text()='Assign Leave']");
 
     By employeeNameButton = By.xpath("//*[@id=\"app\"]/div[1]/div[2]/div[2]/div/div/form/div[1]/div/div/div/div[2]/div/div/input");
+    // By employeeNameLocator=By.cssSelector("input[placeholder=\"Type for hints...\"]");
     By leaveTypeSelect=By.cssSelector("i[class=\"oxd-icon bi-caret-down-fill oxd-select-text--arrow\"]");
     By leaveTypeSelectButton = By.cssSelector("div[class=\"oxd-select-text oxd-select-text--active\"]");
     By personalTypeLocator = By.xpath("//div[text()=\"CAN - Personal\"] ");
@@ -24,6 +26,7 @@ public class AssignLeavePage extends Page {
     By saveAssignLeaveLocator = By.cssSelector("button[type=\"submit\"]");
     By dateButton=By.cssSelector("input[placeholder=\"yyyy-dd-mm\"]");
 
+    // Array//
     // List<WebElement> date=assignLeavePageDriver.findElements(dateButton);
 
     // Constructor
