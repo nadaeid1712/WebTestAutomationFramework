@@ -1,11 +1,13 @@
 import Pages.LoginPage;
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +48,15 @@ public class BaseTest {
             FileUtils.copyFile(scrFile, new File("failedScreenshots\\" + testResult.getName() + "-"
                     + Arrays.toString(testResult.getParameters()) +  ".png"));
         }
+    }
+
+    public void verifySuccessMessage(){
+        By successMessageLocators=By.cssSelector("p[class=\"oxd-text oxd-text--p oxd-text--toast-title oxd-toast-content-text\"]");
+        String actualMessage=driver.findElement(successMessageLocators).getText().trim();
+        String expectedMessage="Success";
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(actualMessage,expectedMessage);
+        softAssert.assertAll();
     }
 
 

@@ -34,7 +34,15 @@ public class TestData {
     @DataProvider
     public Object[][] getEmployeeBdAccount(){
         return new Object[][]{
-                {"Adel","Ibrahim","Talat","adell","adel123","adel123"}
+                {"Adel1","Ibrahim","Talat" ,"F:\\WebTestAutomationFramework5\\Automation\\image\\employee image 1.png","hQPllyyy","adel123","adel123"}
+        };
+    }
+    @DataProvider
+    public Object[][] getFullFields(){
+        return new Object[][]{
+
+                {"Ahmed","Nagy","Shady","F:\\WebTestAutomationFramework5\\Automation\\image\\employee image 1.png","dadyyyy","shady123",
+                        "shady123","985637","2025-12-11",55,2,"1990-25-2",1,"AFC" }
         };
     }
     @DataProvider

@@ -27,6 +27,7 @@ public class PimEmployeeTest extends BaseTest {
     public void multiDelete(){
         Allure.step("Delete multi employees");
         pDriver.deleteEmployees();
+        //verifySuccessMessage();
     }
     @Test(priority = 3)
     public void deleteCancellation(){
