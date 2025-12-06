@@ -10,6 +10,7 @@ public class AssignLeavePage extends Page {
 
     //locators
 
+    By adminLocator=By.cssSelector("span[class=\"oxd-userdropdown-tab\"]");
     //By leaveButtonLocator = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/aside/nav/div[2]/ul/li[3]/a");
     By leaveButtonLocator=By.cssSelector("a[href=\"/web/index.php/leave/viewLeaveModule\"]");
     By assignLeaveButton = By.xpath(" //a[text()='Assign Leave']");
@@ -25,6 +26,9 @@ public class AssignLeavePage extends Page {
     By commentLocator = By.cssSelector("textarea[class=\"oxd-textarea oxd-textarea--active oxd-textarea--resize-vertical\"]");
     By saveAssignLeaveLocator = By.cssSelector("button[type=\"submit\"]");
     By dateButton=By.cssSelector("input[placeholder=\"yyyy-dd-mm\"]");
+
+    //String nameAdmin=assignLeavePageDriver.findElement(adminLocator).getText();
+
 
     // Array//
     // List<WebElement> date=assignLeavePageDriver.findElements(dateButton);
@@ -42,11 +46,12 @@ public class AssignLeavePage extends Page {
 
 
     public void createLeave() {
+        String nameAdmin=assignLeavePageDriver.findElement(adminLocator).getText();
         assignLeavePageDriver.findElement(leaveButtonLocator).click();
         assignLeavePageDriver.findElement(assignLeaveButton).click();
         //assignLeavePageDriver.findElement(employeeNameButton).click();
-        assignLeavePageDriver.findElement(employeeNameButton).sendKeys("Ayman Wael Ali");
-       // assignLeavePageDriver.findElement(leaveTypeSelect).click();
+        assignLeavePageDriver.findElement(employeeNameButton).sendKeys(nameAdmin);
+        // assignLeavePageDriver.findElement(leaveTypeSelect).click();
 
         //to date
         assignLeavePageDriver.findElements(dateButton).get(1).sendKeys("2025-11-12");
@@ -59,4 +64,4 @@ public class AssignLeavePage extends Page {
     }
 
 
-    }
+}

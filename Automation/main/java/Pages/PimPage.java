@@ -42,7 +42,7 @@ public class PimPage {
 
     String photoPath="image/employee image 1.png" ;
     File file=new File(photoPath);
-    String imagePath= file.getAbsolutePath();
+    //String imagePath= file.getAbsolutePath();
 
     public PimPage(WebDriver driver){pimDriver=driver;}
 
