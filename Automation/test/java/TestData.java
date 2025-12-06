@@ -31,12 +31,7 @@ public class TestData {
 
         };
     }
-    @DataProvider
-    public Object[][] getEmployeeBdAccount(){
-        return new Object[][]{
-                {"Adel1","Ibrahim","Talat" ,"F:\\WebTestAutomationFramework5\\Automation\\image\\employee image 1.png","hQPllyyy","adel123","adel123"}
-        };
-    }
+
     @DataProvider
     public Object[][] getFullFields(){
         return new Object[][]{

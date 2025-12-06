@@ -30,14 +30,9 @@ public class PimAddNewTest extends BaseTest {
         new PimPage(driver).addEmployeeId(firstName,middleName,lastName,id);
         Assert.fail("Successfull,Sucessfully Saved");
     }
-    @Test(dataProvider = "getEmployeeBdAccount",dataProviderClass = TestData.class,priority = 5)
-    public void employeeAccount(String firstName,String middleName,String lastName,String imagePath ,String employeeAccount,String employeePassword,String confirmPw){
-        Allure.step("create Employee account  ");
-        new PimPage(driver).completeBasicEmployee(firstName,middleName,lastName,imagePath,employeeAccount,employeePassword,confirmPw);
-        verifySuccessMessage();
-    }
 
-    @Test(dataProvider = "getFullFields",dataProviderClass = TestData.class,priority = 6)
+
+    @Test(dataProvider = "getFullFields",dataProviderClass = TestData.class,priority = 5)
     public void empolyeefullList(String firstName,String middleName,String lastName, String imagePath,String employeeAccount,String employeePassword,String confirmPw
             ,int driverLicence,String LicenceExpiryDate,int nationalityNum,int maritalNum, String dateOfBirth,int bloodNum,String testField ){
         Allure.step("Fill full data");

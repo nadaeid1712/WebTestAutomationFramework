@@ -30,7 +30,8 @@ public class PimPage {
     By logoutButtonLocator=By.cssSelector("a[href=\"/web/index.php/auth/logout\"]");
     By driverLicenceLocator=By.xpath("//label[text()=\"Driver's License Number\"]/following::input[1]");
     By driverLicenceExpiryDateLocator=By.xpath("//label[text()=\"License Expiry Date\"]/following::input[1]");
-    By selectNationalityLocators=By.cssSelector("//label[text()=\"Nationality\"]/following::div[1]");
+    By selectNationalityLocators=By.cssSelector("i[class=\"oxd-icon bi-caret-down-fill oxd-select-text--arrow\"]");
+    //By selectNationalityLocators=By.cssSelector("//label[text()=\"Nationality\"]/following::div[1]");
     By selectMaritalLocator=By.xpath("//label[text()=\"Marital Status\"]/following::div[1]");
     By dateOfBirthLocator=By.xpath("//label[text()=\"Date of Birth\"]/following::input[1]");
     By maleButtonLocator=By.xpath("//label[text()=\"Gender\"]/following::span[1]");
@@ -53,11 +54,9 @@ public class PimPage {
 
     public void selectFromDropdown(By locator,int b) {
         Actions actions = new Actions(pimDriver);
-        if (locator == selectNationalityLocators) {
-            pimDriver.findElements(locator).get(0).click();
-        } else {
+
             pimDriver.findElement(locator).click();
-        }
+
         for (int i=0; i<b;i++){
             actions.sendKeys(Keys.ARROW_DOWN).perform();
         }
@@ -82,19 +81,7 @@ public class PimPage {
         pimDriver.findElements(employeeIdLocator).get(1).sendKeys(String.valueOf(id));
         pimDriver.findElement(saveButtonLocater).click();
     }
-    public void completeBasicEmployee(String firstName,String middleName,String lastName ,String imagePath ,String employeeAccount,String employeePassword,String confirmPw){ pimDriver.findElement(addEmployeeLocator).click();
 
-        pimDriver.findElement(firstNameLocator).sendKeys(firstName);
-        pimDriver.findElement(middleNameLocator).sendKeys(middleName);
-        pimDriver.findElement(lastNameLocator).sendKeys(lastName);
-        pimDriver.findElement(addEmployeePhotoLocator).sendKeys(imagePath);
-        pimDriver.findElement(createLoginDetailsLocator).click();
-        pimDriver.findElements(employeeUsernameLocator).get(0).sendKeys(employeeAccount);
-        pimDriver.findElements(employeeUsernameLocator).get(1).sendKeys(employeePassword);
-        pimDriver.findElements(employeeUsernameLocator).get(2).sendKeys(confirmPw);
-        pimDriver.findElement(saveButtonLocater).click();
-
-    }
     public void allFieldCompletion(String firstName,String middleName,String lastName, String imagePath,String employeeAccount,String employeePassword,String confirmPw
     ,int driverLicence,String LicenceExpiryDate,int nationalityNum,int maritalNum, String dateOfBirth,int bloodNum, String testField ){
         pimDriver.findElement(pimLocator).click();
@@ -113,12 +100,12 @@ public class PimPage {
         pimDriver.findElement(driverLicenceLocator).sendKeys(String.valueOf(driverLicence));
         pimDriver.findElement(driverLicenceExpiryDateLocator).click();
         pimDriver.findElement(driverLicenceExpiryDateLocator).sendKeys(LicenceExpiryDate);
-        //selectFromDropdown(selectNationalityLocators,nationalityNum);
-        //selectFromDropdown(selectMaritalLocator,maritalNum);
+        selectFromDropdown(selectNationalityLocators,nationalityNum);
+        selectFromDropdown(selectMaritalLocator,maritalNum);
         pimDriver.findElement(dateOfBirthLocator).sendKeys(dateOfBirth);
         pimDriver.findElement(maleButtonLocator).click();
         pimDriver.findElement(firstSaveButtonLocator).click();
-       // selectFromDropdown(bloodTypeSelectLocator,bloodNum);
+        selectFromDropdown(bloodTypeSelectLocator,bloodNum);
         pimDriver.findElement(testFieldLocator).sendKeys(testField);
         pimDriver.findElement(secondSaveButtonLocator).click();
 
